@@ -11,37 +11,56 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MovieApiClient {
 
     private static final String TAG = MovieApiClient.class.getSimpleName();
 
-    public static String getPopularMovies() throws IOException {
+    private HttpURLConnection clientConnection;
+    private BufferedReader bufferedReader;
+    private int statusCode;
 
-        URL url = new URL(PathBuilder.getPopularMoviePath());
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+    public MovieApiClient() {
+
+    }
+
+    public String makeHttpRequest(String moviePath) throws IOException {
+
+        URL url = new URL(moviePath);
+        clientConnection = (HttpURLConnection)url.openConnection();
+
         StringBuilder responseStringBuilder = new StringBuilder();
         String inputLine;
 
-        int responseCode = connection.getResponseCode();
+        statusCode = clientConnection.getResponseCode();
 
-        BufferedReader bufferedReader = new BufferedReader(
-                new InputStreamReader(connection.getInputStream()));
+        bufferedReader = new BufferedReader(
+                new InputStreamReader(clientConnection.getInputStream()));
 
         while ((inputLine = bufferedReader.readLine()) != null) {
             responseStringBuilder.append(inputLine);
         }
 
-        bufferedReader.close();
-        connection.disconnect();
-
-        Log.i(TAG, "status: "+ responseCode);
-
         return responseStringBuilder.toString();
 
     }
 
-    public static void parseJson(String responseData) throws JSONException {
+    public void disconnect() throws IOException {
+        bufferedReader.close();
+        clientConnection.disconnect();
+    }
+
+    public int getStatusCode() {
+        return statusCode;
+    }
+
+    public List<Movie> parseResponseToMovieList(String responseData) throws JSONException {
+
+        List<Movie> movies = new ArrayList<>();
+
+        if (responseData == null) return movies;
 
         JSONObject jsonObject = new JSONObject(responseData);
         JSONArray jsonArray = jsonObject.getJSONArray("results");
@@ -54,9 +73,11 @@ public class MovieApiClient {
             String posterPath = jsonArray.getJSONObject(i).getString("poster_path");
             String releaseDate = jsonArray.getJSONObject(i).getString("release_date");
             String overview = jsonArray.getJSONObject(i).getString("overview");
-            Log.i(TAG, "test: id"+ id + " vote_avg: "+
-                    voteAvg + " title: "+ title + " poster path: "+ posterPath
-                    + " release_date: "+ releaseDate + " overview: "+ overview);
+
+            Movie movie = new Movie(id, title, voteAvg, posterPath, overview, releaseDate);
+            movies.add(movie);
         }
+
+        return movies;
     }
 }

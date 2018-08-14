@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
+import com.gudacity.scholar.movietap.utils.PathBuilder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread();
-        movieRequest.execute();
+        movieRequest.execute(PathBuilder.getPopularMoviePath());
 
     }
 }

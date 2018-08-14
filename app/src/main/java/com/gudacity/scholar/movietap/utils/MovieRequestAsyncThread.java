@@ -6,32 +6,55 @@ import android.util.Log;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MovieRequestAsyncThread extends AsyncTask<Void, Void, String> {
+public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
     private static final String TAG = MovieRequestAsyncThread.class.getSimpleName();
+    private MovieApiClient client;
 
     @Override
-    protected void onPostExecute(String s) {
-        super.onPostExecute(s);
+    protected void onPostExecute(String response) {
+        super.onPostExecute(response);
 
-        try {
-            MovieApiClient.parseJson(s);
-        } catch (JSONException io) {
-            Log.e(TAG, io.getMessage(), io);
-        }
+        List<Movie> movies = parseResponseToMovie(response);
+
     }
 
     @Override
-    protected String doInBackground(Void... voids) {
+    protected String doInBackground(String... params) {
         String responseData = null;
+        String path = params[0];
+        client = new MovieApiClient();
+
         try{
-            responseData = MovieApiClient.getPopularMovies();
+
+            responseData = client.makeHttpRequest(path);
+
         }catch (IOException io) {
-            io.printStackTrace();
             Log.e(TAG, "doInBackground: "+ io.getMessage(), io );
+
+        }finally {
+            try {
+                client.disconnect();
+            } catch (IOException e) {
+
+                Log.e(TAG, "closing connection: "+ e.getMessage(), e);
+            }
         }
 
         return responseData;
+    }
+
+    private List<Movie> parseResponseToMovie(String response) {
+        List<Movie> movies = new ArrayList<>();
+        try {
+            movies = client.parseResponseToMovieList(response);
+        } catch (JSONException io) {
+            Log.e(TAG, io.getMessage(), io);
+        }
+
+        return movies;
     }
 }
