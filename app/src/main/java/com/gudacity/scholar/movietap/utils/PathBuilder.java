@@ -2,7 +2,7 @@ package com.gudacity.scholar.movietap.utils;
 
 public class PathBuilder {
 
-    public static final String CONFIG_PATH = "?api_key";
+    public static final String CONFIG_PATH = "?api_key=";
     public static final String API_BASE_URL = "http://api.themoviedb.org/";
     public static int API_VERSION = 3;
     public static final String POPULAR_MOVIE_PATH = "/movie/popular";
