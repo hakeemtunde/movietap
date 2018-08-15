@@ -12,6 +12,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
+    private boolean isPopular = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView)findViewById(R.id.listview_movie);
 
         MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this, listView );
-        movieRequest.execute(PathBuilder.getPopularMoviePath());
+        movieRequest.execute(PathBuilder.getMoviePath(isPopular));
 
     }
 
