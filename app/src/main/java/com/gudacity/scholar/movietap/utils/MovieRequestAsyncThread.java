@@ -2,9 +2,9 @@ package com.gudacity.scholar.movietap.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.widget.ListView;
 
 import com.gudacity.scholar.movietap.MovieAdapter;
 
@@ -17,14 +17,14 @@ import java.util.List;
 public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
     private static final String TAG = MovieRequestAsyncThread.class.getSimpleName();
+
     private MovieApiClient client;
     private Context context;
-    private ListView listView;
+    private RecyclerView recyclerView;
 
-    public MovieRequestAsyncThread(Context context, ListView listView) {
+    public MovieRequestAsyncThread(Context context, RecyclerView recyclerView) {
         this.context = context;
-        this.listView = listView;
-
+        this.recyclerView = recyclerView;
     }
 
     @Override
@@ -32,9 +32,14 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
         super.onPostExecute(response);
 
         List<Movie> movies = parseResponseToMovie(response);
-        MovieAdapter adapter = new MovieAdapter(context, movies );
+        MovieAdapter adapter = new MovieAdapter(context, movies);
 
-        listView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,
+                3, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
+
+        recyclerView.setAdapter(adapter);
 
     }
 

@@ -2,6 +2,8 @@ package com.gudacity.scholar.movietap;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
@@ -19,10 +21,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rc_movie);
 
-        ListView listView = (ListView)findViewById(R.id.listview_movie);
-
-        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this, listView );
+        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this, recyclerView );
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));
 
     }
