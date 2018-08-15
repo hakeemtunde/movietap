@@ -1,7 +1,12 @@
 package com.gudacity.scholar.movietap.utils;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.widget.ListView;
+
+import com.gudacity.scholar.movietap.MovieAdapter;
 
 import org.json.JSONException;
 
@@ -13,12 +18,23 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
     private static final String TAG = MovieRequestAsyncThread.class.getSimpleName();
     private MovieApiClient client;
+    private Context context;
+    private ListView listView;
+
+    public MovieRequestAsyncThread(Context context, ListView listView) {
+        this.context = context;
+        this.listView = listView;
+
+    }
 
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
 
         List<Movie> movies = parseResponseToMovie(response);
+        MovieAdapter adapter = new MovieAdapter(context, movies );
+
+        listView.setAdapter(adapter);
 
     }
 
