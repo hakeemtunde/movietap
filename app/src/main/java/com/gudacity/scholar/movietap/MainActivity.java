@@ -22,6 +22,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         RecyclerView recyclerView = (RecyclerView)findViewById(R.id.rc_movie);
+        recyclerView.setHasFixedSize(true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+                3, GridLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(gridLayoutManager);
 
         MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this, recyclerView );
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));

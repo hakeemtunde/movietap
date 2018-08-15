@@ -33,12 +33,6 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
         List<Movie> movies = parseResponseToMovie(response);
         MovieAdapter adapter = new MovieAdapter(context, movies);
-
-        recyclerView.setHasFixedSize(true);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,
-                3, GridLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
-
         recyclerView.setAdapter(adapter);
 
     }
