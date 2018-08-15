@@ -1,5 +1,7 @@
 package com.gudacity.scholar.movietap.utils;
 
+import com.gudacity.scholar.movietap.BuildConfig;
+
 public class PathBuilder {
 
     public static final String CONFIG_PATH = "?api_key=";
@@ -10,7 +12,7 @@ public class PathBuilder {
     public static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     public static final String POSTER_SIZE ="w185";
 
-    private static final String API_KEY = "themovie_api_key";
+    private static final String API_KEY = BuildConfig.API_KEY;
 
     public static String buildPosterUri(String posterPath) {
 
