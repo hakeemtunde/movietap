@@ -2,11 +2,9 @@ package com.gudacity.scholar.movietap.utils;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-import com.gudacity.scholar.movietap.MovieAdapter;
+import com.gudacity.scholar.movietap.MainActivityAction;
 
 import org.json.JSONException;
 
@@ -20,11 +18,18 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
     private MovieApiClient client;
     private Context context;
-    private RecyclerView recyclerView;
 
-    public MovieRequestAsyncThread(Context context, RecyclerView recyclerView) {
+    private MainActivityAction mainActivityAction;
+
+    public MovieRequestAsyncThread(Context context, MainActivityAction activityAsyncAction) {
         this.context = context;
-        this.recyclerView = recyclerView;
+        this.mainActivityAction = activityAsyncAction;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+        mainActivityAction.loadProgressBar();
     }
 
     @Override
@@ -32,9 +37,9 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
         super.onPostExecute(response);
 
         List<Movie> movies = parseResponseToMovie(response);
-        MovieAdapter adapter = new MovieAdapter(context, movies);
-        recyclerView.setAdapter(adapter);
 
+        mainActivityAction.LoadAdapterData(movies);
+        mainActivityAction.unLoadProgressBar();
     }
 
     @Override
