@@ -8,4 +8,30 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="layoutWrapWidthHeight">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="ViewStyle1" parent="layoutWrapWidthHeight">
+        <item name="android:layout_gravity">end</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:paddingRight">3dp</item>
+    </style>
+
+    <style name="ViewStyle2" parent="layoutWrapWidthHeight">
+        <item name="android:layout_gravity">bottom|end</item>
+        <item name="android:paddingRight">3dp</item>
+    </style>
+
+    <style name="SynopsisStyle" parent="layoutWrapWidthHeight">
+        <item name="android:layout_gravity">bottom|left</item>
+    </style>
+
+    <style name="MainProgressBarStyle" parent="layoutWrapWidthHeight">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 </resources>

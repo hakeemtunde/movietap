@@ -48,7 +48,10 @@ public class MovieApiClient {
     }
 
     public void disconnect() throws IOException {
-        bufferedReader.close();
+        if (bufferedReader != null) {
+            bufferedReader.close();
+        }
+
         clientConnection.disconnect();
     }
 

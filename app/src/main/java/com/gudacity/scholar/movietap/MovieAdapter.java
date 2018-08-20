@@ -22,10 +22,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
 
     private Context context;
     private List<Movie> movies;
+    private MainActivityAction activityAction;
 
-    public MovieAdapter(Context context, List<Movie> movies) {
+    public MovieAdapter(Context context, List<Movie> movies, MainActivityAction activityAction) {
         this.movies = movies;
         this.context = context;
+        this.activityAction = activityAction;
     }
 
     @NonNull
@@ -61,7 +63,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
 
         //start new activity
         Movie movie = movies.get(position);
-        Log.i(TAG, "onItemClicked: "+ movie.getTitle());
+        activityAction.startNewActivityWithMovie(movie);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder

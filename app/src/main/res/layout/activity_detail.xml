@@ -1,0 +1,86 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".DetailActivity"
+    android:padding="16dp">
+
+
+    <ImageView
+        android:id="@+id/detail_movie_poster"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_title_label"
+            android:text="@string/title"
+            app:layout_anchor="@id/detail_movie_poster"
+            app:layout_anchorGravity="end"
+            style="@style/ViewStyle1" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            app:layout_anchor="@id/tv_title_label"
+            app:layout_anchorGravity="end"
+            style="@style/ViewStyle1" />
+
+
+
+        <TextView
+            android:id="@+id/tv_vote_label"
+            android:text="@string/vote"
+            app:layout_anchor="@id/tv_title_label"
+            app:layout_anchorGravity="bottom"
+            style="@style/ViewStyle2" />
+
+        <TextView
+            android:id="@+id/tv_vote"
+            app:layout_anchor="@id/tv_title_label"
+            style="@style/ViewStyle2"
+            app:layout_anchorGravity="bottom|end"/>
+
+
+
+
+        <TextView
+            android:id="@+id/tv_release_date_label"
+            android:text="@string/release_date"
+            app:layout_anchor="@id/tv_vote_label"
+            style="@style/ViewStyle2"
+            app:layout_anchorGravity="bottom"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_release_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_anchor="@+id/tv_release_date_label"
+            android:layout_gravity="end"
+            app:layout_anchorGravity="bottom|end"
+            />
+
+
+        <TextView
+            android:id="@+id/tv_synopsis_label"
+            android:text="@string/synopsis"
+            app:layout_anchor="@id/detail_movie_poster"
+            app:layout_anchorGravity="bottom|left"
+            style="@style/SynopsisStyle" />
+
+    <ScrollView
+        style="@style/layoutWrapWidthHeight"
+        android:layout_marginTop="180dp" >
+
+        <TextView
+            android:id="@+id/tv_synopsis"
+            app:layout_anchor="@id/tv_synopsis_label"
+            style="@style/SynopsisStyle"
+            app:layout_anchorGravity="bottom|left"/>
+
+    </ScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

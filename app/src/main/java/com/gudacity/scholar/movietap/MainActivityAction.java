@@ -11,4 +11,6 @@ public interface MainActivityAction {
     public void unLoadProgressBar();
 
     public void LoadAdapterData(List<Movie> movies);
+
+    public void startNewActivityWithMovie(Movie movie);
 }

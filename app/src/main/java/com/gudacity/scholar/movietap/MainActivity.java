@@ -1,5 +1,6 @@
 package com.gudacity.scholar.movietap;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,6 +42,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityActio
 
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));
 
+
+
+
+
     }
 
 
@@ -59,8 +64,23 @@ public class MainActivity extends AppCompatActivity implements MainActivityActio
     @Override
     public void LoadAdapterData(List<Movie> movies) {
 
-        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), movies);
+        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), movies, this);
         recyclerView.setAdapter(adapter);
+
+    }
+
+    @Override
+    public void startNewActivityWithMovie(Movie movie) {
+//        Bundle extras = new Bundle();
+
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra(DetailActivity.MOVIE_TITLE, movie.getTitle());
+        intent.putExtra(DetailActivity.MOVIE_SYNOPSIS, movie.getSynopsis());
+        intent.putExtra(DetailActivity.MOVIE_POSTER_PATH, movie.getPosterPath());
+        intent.putExtra(DetailActivity.RELEASE_DATE, movie.getDate());
+        intent.putExtra(DetailActivity.MOVIE_VOTES, movie.getVoteAverage());
+
+        startActivity(intent);
 
     }
 }

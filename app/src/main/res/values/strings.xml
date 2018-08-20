@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">movietap</string>
+    <string name="title">Title: </string>
+    <string name="vote">Vote: </string>
+    <string name="release_date">Release Date: </string>
+    <string name="synopsis">Synopsis: </string>
 </resources>
