@@ -1,6 +1,9 @@
 package com.gudacity.scholar.movietap.utils;
 
-public class Movie {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Movie implements Parcelable {
 
     private long id;
     private String title;
@@ -8,6 +11,28 @@ public class Movie {
     private String posterPath;
     private String synopsis;
     private String date;
+
+    public static final Parcelable.Creator CREATOR =
+            new Parcelable.Creator() {
+
+                public Movie createFromParcel(Parcel parcel) {
+                    return new Movie(parcel);
+                }
+
+                public Movie[] newArray(int size) {
+                    return new Movie[size];
+                }
+
+            };
+
+    public Movie(Parcel parcel) {
+        this.id = parcel.readLong();
+        this.title = parcel.readString();
+        this.voteAverage = parcel.readDouble();
+        this.posterPath = parcel.readString();
+        this.synopsis = parcel.readString();
+        this.date = parcel.readString();
+    }
 
 
     public Movie(long id, String title, double voteAverage, String posterPath, String synopsis, String date) {
@@ -77,5 +102,21 @@ public class Movie {
                 ", synopsis='" + synopsis + '\'' +
                 ", date='" + date + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
+        parcel.writeLong(this.id);
+        parcel.writeString(this.title);
+        parcel.writeDouble(this.voteAverage);
+        parcel.writeString(this.posterPath);
+        parcel.writeString(this.synopsis);
+        parcel.writeString(this.date);
     }
 }

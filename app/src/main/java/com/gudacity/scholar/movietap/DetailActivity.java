@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 import com.squareup.picasso.Picasso;
 
@@ -17,11 +18,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
-    public static final String MOVIE_TITLE = "TITLE";
-    public static final String MOVIE_POSTER_PATH = "POSTER_PATH";
-    public static final String MOVIE_SYNOPSIS = "SYNOPSIS";
-    public static final String RELEASE_DATE = "RELEASE_DATE";
-    public static final String MOVIE_VOTES = "VOTES";
+    public static final String MOVIE_PARCELABLE_KEY = "movie";
 
     @BindView(R.id.tv_title)
     TextView title_tv;
@@ -49,12 +46,15 @@ public class DetailActivity extends AppCompatActivity {
 
     private void populateUI(Intent intent) {
 
-        title_tv.setText(intent.getStringExtra(MOVIE_TITLE));
-        vote_tv.setText(String.valueOf(intent.getDoubleExtra(MOVIE_VOTES, 0)));
-        release_date_tv.setText(intent.getStringExtra(RELEASE_DATE));
-        synopsis_tv.setText(intent.getStringExtra(MOVIE_SYNOPSIS));
+        Bundle bundle = intent.getExtras();
+        Movie movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
 
-        String posterpath = intent.getStringExtra(MOVIE_POSTER_PATH);
+        title_tv.setText(movie.getTitle());
+        vote_tv.setText(String.valueOf(movie.getVoteAverage()));
+        release_date_tv.setText(movie.getDate());
+        synopsis_tv.setText(movie.getSynopsis());
+
+        String posterpath = movie.getPosterPath();
 
         Picasso.with(this)
                 .load(PathBuilder.buildPosterImagePath(posterpath))

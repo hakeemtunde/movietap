@@ -99,12 +99,7 @@ public class MainActivity extends AppCompatActivity
     public void startNewActivityWithMovie(Movie movie) {
 
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.MOVIE_TITLE, movie.getTitle());
-        intent.putExtra(DetailActivity.MOVIE_SYNOPSIS, movie.getSynopsis());
-        intent.putExtra(DetailActivity.MOVIE_POSTER_PATH, movie.getPosterPath());
-        intent.putExtra(DetailActivity.RELEASE_DATE, movie.getDate());
-        intent.putExtra(DetailActivity.MOVIE_VOTES, movie.getVoteAverage());
-
+        intent.putExtra(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
         startActivity(intent);
 
     }
