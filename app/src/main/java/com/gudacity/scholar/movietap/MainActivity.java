@@ -1,6 +1,10 @@
 package com.gudacity.scholar.movietap;
 
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
@@ -42,6 +46,8 @@ public class MainActivity extends AppCompatActivity
             setSupportActionBar(toolbar);
         }
 
+        //check network status
+        ifNetworkErrorLaunchNetworkErrorActivity(getApplicationContext());
 
         AppCompatSpinner spinner = (AppCompatSpinner)findViewById(R.id.spinner);
         progressBar = (ProgressBar)findViewById(R.id.progressBar);
@@ -53,8 +59,6 @@ public class MainActivity extends AppCompatActivity
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
-
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
                 3, GridLayoutManager.VERTICAL, false);
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity
 
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
+
 
 
     }
@@ -112,6 +117,40 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
+
+    @Override
+    public void launchNetworkErrorActivity(String errormsg) {
+
+        Intent intent = new Intent(this, NetworkErrorActivity.class);
+        intent.putExtra(NetworkErrorActivity.NETWORK_ERROR_EXTRA, errormsg);
+        startActivity(intent);
+
+        finish();
+    }
+
+    private void ifNetworkErrorLaunchNetworkErrorActivity(Context context)  {
+
+        ConnectivityManager manager =  (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        try {
+
+            if (networkInfo == null || !networkInfo.isConnected()) {
+
+                throw new NetworkErrorException(
+                        getString(R.string.network_error_msg));
+            }
+
+        } catch (NetworkErrorException e) {
+
+            launchNetworkErrorActivity(e.getMessage());
+
+        }
+
 
     }
 }

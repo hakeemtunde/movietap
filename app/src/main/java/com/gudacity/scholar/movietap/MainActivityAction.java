@@ -1,5 +1,7 @@
 package com.gudacity.scholar.movietap;
 
+import android.accounts.NetworkErrorException;
+import android.content.Context;
 import android.widget.AdapterView;
 
 import com.gudacity.scholar.movietap.utils.Movie;
@@ -17,4 +19,6 @@ public interface MainActivityAction extends AdapterView.OnItemSelectedListener{
     public void fetchMovie(String criteria);
 
     public void startNewActivityWithMovie(Movie movie);
+
+    public void launchNetworkErrorActivity(String errormsg);
 }

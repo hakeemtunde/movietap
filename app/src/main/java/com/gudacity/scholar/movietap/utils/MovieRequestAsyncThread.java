@@ -54,6 +54,7 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
         }catch (IOException io) {
             Log.e(TAG, "doInBackground: "+ io.getMessage(), io );
+            mainActivityAction.launchNetworkErrorActivity(io.getMessage());
 
         }finally {
             try {

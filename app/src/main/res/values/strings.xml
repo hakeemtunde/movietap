@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">movietap</string>
+    <string name="detail_activity_name">Movie Details</string>
     <string name="title">Title: </string>
     <string name="vote">Vote: </string>
     <string name="release_date">Release Date: </string>
     <string name="synopsis">Synopsis: </string>
+    <string name="network_error_msg">Check network connect</string>
+    <string name="btn_retry_text">Retry</string>
+
 
     <string-array name="movie_sort_options">
         <item>Most Popular</item>
