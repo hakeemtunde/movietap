@@ -25,7 +25,7 @@
             android:theme="@style/DetailActivityTheme">
         </activity>
 
-        <activity android:name=".NetworkErrorActivity"></activity>
+        <activity android:name=".NetworkErrorActivity"/>
     </application>
 
 </manifest>

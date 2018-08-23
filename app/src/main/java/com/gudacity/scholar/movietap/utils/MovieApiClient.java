@@ -1,7 +1,5 @@
 package com.gudacity.scholar.movietap.utils;
 
-import android.util.Log;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,7 +12,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MovieApiClient {
+class MovieApiClient {
 
     private static final String TAG = MovieApiClient.class.getSimpleName();
 

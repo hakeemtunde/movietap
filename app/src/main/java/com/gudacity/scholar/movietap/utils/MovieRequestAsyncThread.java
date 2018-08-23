@@ -17,12 +17,10 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
     private static final String TAG = MovieRequestAsyncThread.class.getSimpleName();
 
     private MovieApiClient client;
-    private Context context;
+    private final MainActivityAction mainActivityAction;
 
-    private MainActivityAction mainActivityAction;
+    public MovieRequestAsyncThread(MainActivityAction activityAsyncAction) {
 
-    public MovieRequestAsyncThread(Context context, MainActivityAction activityAsyncAction) {
-        this.context = context;
         this.mainActivityAction = activityAsyncAction;
     }
 

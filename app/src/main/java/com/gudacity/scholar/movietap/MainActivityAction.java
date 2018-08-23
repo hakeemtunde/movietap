@@ -1,7 +1,5 @@
 package com.gudacity.scholar.movietap;
 
-import android.accounts.NetworkErrorException;
-import android.content.Context;
 import android.widget.AdapterView;
 
 import com.gudacity.scholar.movietap.utils.Movie;
