@@ -7,6 +7,7 @@
     <string name="synopsis">Synopsis: </string>
     <string name="network_error_msg">Check network connect</string>
     <string name="btn_retry_text">Retry</string>
+    <string name="img_desc">Movie Image</string>
 
 
     <string-array name="movie_sort_options">

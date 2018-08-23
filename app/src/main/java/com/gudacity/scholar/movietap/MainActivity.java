@@ -29,18 +29,21 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String DEFAULT_CRITERIA = "Most Popular";
-    private boolean isPopular;
 
-    private ProgressBar progressBar;
-    private RecyclerView recyclerView;
-    private Toolbar toolbar;
+    @butterknife.BindView(R.id.progressBar)
+    public ProgressBar progressBar;
+
+    @butterknife.BindView(R.id.rc_movie)
+    public RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toolbar  = (Toolbar) findViewById(R.id.toolbar);
+        butterknife.ButterKnife.bind(this);
+
+        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -50,8 +53,6 @@ public class MainActivity extends AppCompatActivity
         ifNetworkErrorLaunchNetworkErrorActivity(getApplicationContext());
 
         AppCompatSpinner spinner = (AppCompatSpinner)findViewById(R.id.spinner);
-        progressBar = (ProgressBar)findViewById(R.id.progressBar);
-        recyclerView = (RecyclerView)findViewById(R.id.rc_movie);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.movie_sort_options, android.R.layout.simple_spinner_item
@@ -92,10 +93,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void fetchMovie(String criteria) {
 
-        isPopular = criteria.equals(DEFAULT_CRITERIA) ? true : false;
+        boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
 
-        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(getApplicationContext(),
-                this );
+        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this );
 
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));
     }
@@ -116,9 +116,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
     @Override
     public void launchNetworkErrorActivity(String errormsg) {
@@ -135,11 +133,11 @@ public class MainActivity extends AppCompatActivity
         ConnectivityManager manager =  (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
 
         try {
-
-            if (networkInfo == null || !networkInfo.isConnected()) {
+            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+            if (!networkInfo.isConnected()) {
 
                 throw new NetworkErrorException(
                         getString(R.string.network_error_msg));

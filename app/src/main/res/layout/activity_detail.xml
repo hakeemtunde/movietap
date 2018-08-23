@@ -12,7 +12,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
-        android:paddingBottom="10dp"/>
+        android:paddingLeft="0dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:contentDescription="@string/img_desc"
+        />
 
         <TextView
             android:id="@+id/tv_title_label"

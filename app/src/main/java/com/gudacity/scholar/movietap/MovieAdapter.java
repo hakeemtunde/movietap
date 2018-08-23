@@ -3,7 +3,6 @@ package com.gudacity.scholar.movietap;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +19,9 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
-    private Context context;
-    private List<Movie> movies;
-    private MainActivityAction activityAction;
+    private final Context context;
+    private final List<Movie> movies;
+    private final MainActivityAction activityAction;
 
     public MovieAdapter(Context context, List<Movie> movies, MainActivityAction activityAction) {
         this.movies = movies;
@@ -37,9 +36,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.movie_list, viewGroup, false);
 
-        ViewHolder viewHolder = new ViewHolder(view, this);
-
-        return viewHolder;
+        return new ViewHolder(view, this);
     }
 
     @Override
@@ -69,7 +66,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
     public class ViewHolder extends RecyclerView.ViewHolder
             implements RecyclerView.OnClickListener{
 
-        public ImageView posterImageView;
+        ImageView posterImageView;
         private RecyclerClickListener clickListener;
 
         public ViewHolder(@NonNull View view, RecyclerClickListener clickListener) {
