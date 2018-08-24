@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity
 
         try {
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            if (!networkInfo.isConnected()) {
+            if (networkInfo == null || !networkInfo.isConnected()) {
 
                 throw new NetworkErrorException(
                         getString(R.string.network_error_msg));
