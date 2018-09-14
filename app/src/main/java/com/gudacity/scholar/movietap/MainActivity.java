@@ -11,12 +11,15 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
@@ -27,12 +30,11 @@ public class MainActivity extends AppCompatActivity
         implements MainActivityAction {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final String DEFAULT_CRITERIA = "Most Popular";
+    int posterWidth = 250;
 
     @butterknife.BindView(R.id.progressBar)
     public ProgressBar progressBar;
-
     @butterknife.BindView(R.id.rc_movie)
     public RecyclerView recyclerView;
 
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity
 
         butterknife.ButterKnife.bind(this);
 
-        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity
         //check network status
         ifNetworkErrorLaunchNetworkErrorActivity(getApplicationContext());
 
-        AppCompatSpinner spinner = (AppCompatSpinner)findViewById(R.id.spinner);
+        AppCompatSpinner spinner = (AppCompatSpinner) findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.movie_sort_options, android.R.layout.simple_spinner_item
@@ -62,13 +64,13 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
-                3, GridLayoutManager.VERTICAL, false);
+                ExtraUtil.calculateBestSpanCount(posterWidth, getWindowManager()),
+                GridLayoutManager.VERTICAL, false);
+
         recyclerView.setLayoutManager(gridLayoutManager);
 
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
-
-
 
     }
 
@@ -95,7 +97,7 @@ public class MainActivity extends AppCompatActivity
 
         boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
 
-        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this );
+        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this);
 
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));
     }
@@ -116,7 +118,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
 
     @Override
     public void launchNetworkErrorActivity(String errormsg) {
@@ -128,12 +131,10 @@ public class MainActivity extends AppCompatActivity
         finish();
     }
 
-    private void ifNetworkErrorLaunchNetworkErrorActivity(Context context)  {
+    private void ifNetworkErrorLaunchNetworkErrorActivity(Context context) {
 
-        ConnectivityManager manager =  (ConnectivityManager)
+        ConnectivityManager manager = (ConnectivityManager)
                 context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-
 
         try {
             NetworkInfo networkInfo = manager.getActiveNetworkInfo();
@@ -148,7 +149,6 @@ public class MainActivity extends AppCompatActivity
             launchNetworkErrorActivity(e.getMessage());
 
         }
-
 
     }
 }
