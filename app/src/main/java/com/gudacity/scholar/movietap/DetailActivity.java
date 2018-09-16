@@ -20,16 +20,15 @@ public class DetailActivity extends AppCompatActivity {
     public static final String MOVIE_PARCELABLE_KEY = "movie";
 
     @BindView(R.id.tv_title)
-    TextView title_tv;
+    TextView titleTv;
     @BindView(R.id.tv_release_date)
-    TextView release_date_tv;
+    TextView releaseDateTv;
     @BindView(R.id.tv_vote)
-    TextView vote_tv;
+    TextView voteTv;
     @BindView(R.id.tv_synopsis)
-    TextView synopsis_tv;
+    TextView synopsisTv;
     @BindView(R.id.detail_movie_poster)
-    ImageView movie_poster_iv;
-
+    ImageView moviePosterIv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         ButterKnife.bind(this);
-
         Intent intent = getIntent();
-
         populateUI(intent);
     }
 
@@ -48,15 +45,15 @@ public class DetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         Movie movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
 
-        title_tv.setText(movie.getTitle());
-        vote_tv.setText(String.valueOf(movie.getVoteAverage()));
-        release_date_tv.setText(movie.getDate());
-        synopsis_tv.setText(movie.getSynopsis());
+        titleTv.setText(movie.getTitle());
+        voteTv.setText(String.valueOf(movie.getVoteAverage()));
+        releaseDateTv.setText(movie.getDate());
+        synopsisTv.setText(movie.getSynopsis());
 
-        String posterpath = movie.getPosterPath();
+        String posterPath = movie.getPosterPath();
 
         Picasso.with(this)
-                .load(PathBuilder.buildPosterImagePath(posterpath))
-                .into(movie_poster_iv);
+                .load(PathBuilder.buildPosterImagePath(posterPath))
+                .into(moviePosterIv);
     }
 }
