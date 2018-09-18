@@ -1,10 +1,9 @@
 package com.gudacity.scholar.movietap.utils;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.gudacity.scholar.movietap.MainActivityAction;
+import com.gudacity.scholar.movietap.ActivityActionHandlerInterface;
 
 import org.json.JSONException;
 
@@ -17,17 +16,16 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
     private static final String TAG = MovieRequestAsyncThread.class.getSimpleName();
 
     private MovieApiClient client;
-    private final MainActivityAction mainActivityAction;
+    private final ActivityActionHandlerInterface activityActionHandler;
 
-    public MovieRequestAsyncThread(MainActivityAction activityAsyncAction) {
-
-        this.mainActivityAction = activityAsyncAction;
+    public MovieRequestAsyncThread(ActivityActionHandlerInterface activityAsyncAction) {
+        this.activityActionHandler = activityAsyncAction;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        mainActivityAction.loadProgressBar();
+        activityActionHandler.loadProgressBar();
     }
 
     @Override
@@ -36,8 +34,8 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
         List<Movie> movies = parseResponseToMovie(response);
 
-        mainActivityAction.LoadAdapterData(movies);
-        mainActivityAction.unLoadProgressBar();
+        activityActionHandler.LoadAdapterData(movies);
+        activityActionHandler.unLoadProgressBar();
     }
 
     @Override
@@ -52,7 +50,7 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
         }catch (IOException io) {
             Log.e(TAG, "doInBackground: "+ io.getMessage(), io );
-            mainActivityAction.launchNetworkErrorActivity(io.getMessage());
+            activityActionHandler.networkErrorHandler(io.getMessage());
 
         }finally {
             try {

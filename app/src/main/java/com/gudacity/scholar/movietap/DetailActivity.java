@@ -56,4 +56,10 @@ public class DetailActivity extends AppCompatActivity {
                 .load(PathBuilder.buildPosterImagePath(posterPath))
                 .into(moviePosterIv);
     }
+
+    private void fetchReview(int id) {
+
+
+
+    }
 }

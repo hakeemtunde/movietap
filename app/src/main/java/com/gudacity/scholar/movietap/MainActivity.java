@@ -1,19 +1,11 @@
 package com.gudacity.scholar.movietap;
 
-import android.accounts.NetworkErrorException;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,7 +18,7 @@ import com.gudacity.scholar.movietap.utils.PathBuilder;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AbstractActivityAction
         implements MainActivityAction {
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -40,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -75,30 +68,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void loadProgressBar() {
-
-        progressBar.setIndeterminate(true);
-        progressBar.setVisibility(View.VISIBLE);
+    public ProgressBar getProgressBar() {
+        return this.progressBar;
     }
 
     @Override
-    public void unLoadProgressBar() {
-        progressBar.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void LoadAdapterData(List<Movie> movies) {
-        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), movies, this);
+    public void LoadAdapterData(List data) {
+        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), data, this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
     public void fetchMovie(String criteria) {
-
         boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
-
         MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this);
-
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));
     }
 
@@ -122,33 +105,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void launchNetworkErrorActivity(String errormsg) {
+    public void networkErrorHandler(String errorMsg) {
 
         Intent intent = new Intent(this, NetworkErrorActivity.class);
-        intent.putExtra(NetworkErrorActivity.NETWORK_ERROR_EXTRA, errormsg);
+        intent.putExtra(NetworkErrorActivity.NETWORK_ERROR_EXTRA, errorMsg);
         startActivity(intent);
 
         finish();
     }
 
-    private void ifNetworkErrorLaunchNetworkErrorActivity(Context context) {
-
-        ConnectivityManager manager = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        try {
-            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            if (networkInfo == null || !networkInfo.isConnected()) {
-
-                throw new NetworkErrorException(
-                        getString(R.string.network_error_msg));
-            }
-
-        } catch (NetworkErrorException e) {
-
-            launchNetworkErrorActivity(e.getMessage());
-
-        }
-
-    }
 }

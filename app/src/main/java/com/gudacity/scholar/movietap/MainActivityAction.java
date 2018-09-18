@@ -8,15 +8,6 @@ import java.util.List;
 
 public interface MainActivityAction extends AdapterView.OnItemSelectedListener{
 
-    public void loadProgressBar();
-
-    public void unLoadProgressBar();
-
-    public void LoadAdapterData(List<Movie> movies);
-
-    public void fetchMovie(String criteria);
-
     public void startNewActivityWithMovie(Movie movie);
 
-    public void launchNetworkErrorActivity(String errormsg);
 }
