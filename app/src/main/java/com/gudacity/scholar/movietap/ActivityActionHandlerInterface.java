@@ -10,7 +10,7 @@ public interface ActivityActionHandlerInterface {
     void loadProgressBar();
     void unLoadProgressBar();
     abstract ProgressBar getProgressBar();
-    abstract void LoadAdapterData(List data);
     abstract void fetchMovie(String criteria);
+    abstract void LoadData(List data);
     abstract void networkErrorHandler(String errorMsg);
 }

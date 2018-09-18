@@ -73,7 +73,7 @@ public class MainActivity extends AbstractActivityAction
     }
 
     @Override
-    public void LoadAdapterData(List data) {
+    public void LoadData(List data) {
         MovieAdapter adapter = new MovieAdapter(getApplicationContext(), data, this);
         recyclerView.setAdapter(adapter);
     }

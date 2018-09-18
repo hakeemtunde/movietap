@@ -34,7 +34,7 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
 
         List<Movie> movies = parseResponseToMovie(response);
 
-        activityActionHandler.LoadAdapterData(movies);
+        activityActionHandler.LoadData(movies);
         activityActionHandler.unLoadProgressBar();
     }
 
