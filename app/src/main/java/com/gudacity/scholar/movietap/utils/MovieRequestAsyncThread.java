@@ -31,10 +31,7 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
         super.onPostExecute(response);
-
-        List<Movie> movies = parseResponseToMovie(response);
-
-        activityActionHandler.LoadData(movies);
+        activityActionHandler.LoadData(response);
         activityActionHandler.unLoadProgressBar();
     }
 
@@ -64,14 +61,5 @@ public class MovieRequestAsyncThread extends AsyncTask<String, Void, String> {
         return responseData;
     }
 
-    private List<Movie> parseResponseToMovie(String response) {
-        List<Movie> movies = new ArrayList<>();
-        try {
-            movies = client.parseResponseToMovieList(response);
-        } catch (JSONException io) {
-            Log.e(TAG, io.getMessage(), io);
-        }
 
-        return movies;
-    }
 }

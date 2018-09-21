@@ -77,14 +77,33 @@
 
     <ScrollView
         style="@style/layoutWrapWidthHeight"
-        android:layout_marginTop="180dp" >
+        android:id="@+id/sv_control">
 
         <TextView
             android:id="@+id/tv_synopsis"
             app:layout_anchor="@id/tv_synopsis_label"
             style="@style/SynopsisStyle"
+            android:layout_marginTop="150dp"
+            android:padding="5dp"
             app:layout_anchorGravity="bottom|left"/>
 
     </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="170dp">
+
+        <Button
+            android:id="@+id/btn_load_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/load_review"
+            android:layout_gravity="center_vertical"/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/MainProgressBarStyle" />
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>

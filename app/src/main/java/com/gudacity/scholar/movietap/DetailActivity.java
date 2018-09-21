@@ -3,17 +3,27 @@ package com.gudacity.scholar.movietap;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
+import com.gudacity.scholar.movietap.utils.MovieReview;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AbstractActivityAction {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
@@ -29,6 +39,12 @@ public class DetailActivity extends AppCompatActivity {
     TextView synopsisTv;
     @BindView(R.id.detail_movie_poster)
     ImageView moviePosterIv;
+    @BindView(R.id.btn_load_review)
+    Button loadReviewBtn;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
+
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
     private void populateUI(Intent intent) {
 
         Bundle bundle = intent.getExtras();
-        Movie movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+        movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
 
         titleTv.setText(movie.getTitle());
         voteTv.setText(String.valueOf(movie.getVoteAverage()));
@@ -57,9 +73,33 @@ public class DetailActivity extends AppCompatActivity {
                 .into(moviePosterIv);
     }
 
-    private void fetchReview(int id) {
 
+    @Override
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
 
+    @Override
+    public void fetchMovie(String criteria) {
+        MovieRequestAsyncThread movieRequestAsyncThread =
+                new MovieRequestAsyncThread(this);
+        movieRequestAsyncThread.execute(criteria);
+    }
 
+    @Override
+    public void LoadData(String data) {
+        //Log.i(TAG, data);
+        List<MovieReview> movieReviews = JsonParser.parseMovieReview(data);
+    }
+
+    @Override
+    public void networkErrorHandler(String errorMsg) {
+
+    }
+
+    @OnClick(R.id.btn_load_review)
+    public void onLoadReviewBtnClick(View view) {
+        String path = PathBuilder.getMovieReviewPath(movie.getId());
+        fetchMovie(path);
     }
 }

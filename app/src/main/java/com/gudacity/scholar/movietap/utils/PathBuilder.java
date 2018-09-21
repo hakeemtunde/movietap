@@ -12,6 +12,7 @@ public class PathBuilder {
     private static final String TOP_RATED_MOVIE_PATH = MOVIE_INIT_PATH +"/top_rated";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String POSTER_SIZE ="w185";
+    private static final String SLASH = "/";
 
     private static final String API_KEY = BuildConfig.API_KEY;
 
@@ -44,8 +45,8 @@ public class PathBuilder {
         return stringBuilder.toString();
     }
 
-    public static String getMovieReviewPath(int id) {
-        return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH
+    public static String getMovieReviewPath(long id) {
+        return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH + SLASH
                 + String.valueOf(id) + MOVIE_REVIEW_PATH + getApiConfiguration();
     }
 

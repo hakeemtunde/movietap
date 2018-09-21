@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
+import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
@@ -73,8 +74,9 @@ public class MainActivity extends AbstractActivityAction
     }
 
     @Override
-    public void LoadData(List data) {
-        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), data, this);
+    public void LoadData(String data) {
+        List<Movie> movies = JsonParser.parseResponseToMovie(data);
+        MovieAdapter adapter = new MovieAdapter(getApplicationContext(), movies, this);
         recyclerView.setAdapter(adapter);
     }
 

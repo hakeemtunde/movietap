@@ -11,6 +11,6 @@ public interface ActivityActionHandlerInterface {
     void unLoadProgressBar();
     abstract ProgressBar getProgressBar();
     abstract void fetchMovie(String criteria);
-    abstract void LoadData(List data);
+    abstract void LoadData(String data);
     abstract void networkErrorHandler(String errorMsg);
 }
