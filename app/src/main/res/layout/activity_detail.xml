@@ -89,21 +89,41 @@
 
     </ScrollView>
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="170dp">
+        android:layout_height="wrap_content"
+        app:layout_anchor="@id/tv_synopsis"
+        app:layout_anchorGravity="bottom">
 
         <Button
             android:id="@+id/btn_load_review"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/load_review"
+            android:layout_marginTop="50dp"
             android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/network_error_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="40dp"
+            android:textColor="@color/colorAccent"
+            android:text=""/>
 
         <ProgressBar
             android:id="@+id/progressBar"
+            android:layout_gravity="bottom|center"
             style="@style/MainProgressBarStyle" />
-    </FrameLayout>
+
+
+
+    </LinearLayout>
+
+    <include app:layout_anchor="@id/btn_load_review"
+        app:layout_anchorGravity="bottom" layout="@layout/review_main"/>
 
 </android.support.design.widget.CoordinatorLayout>

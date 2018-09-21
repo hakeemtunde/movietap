@@ -1,9 +1,9 @@
 package com.gudacity.scholar.movietap;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -43,6 +43,12 @@ public class DetailActivity extends AbstractActivityAction {
     Button loadReviewBtn;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
+    @BindView(R.id.rv_reviews)
+    RecyclerView recyclerView;
+    @BindView(R.id.tv_review_label)
+    TextView reviewLabelTv;
+    @BindView(R.id.network_error_tv)
+    TextView networkErrorTv;
 
     private Movie movie;
 
@@ -54,6 +60,8 @@ public class DetailActivity extends AbstractActivityAction {
         ButterKnife.bind(this);
         Intent intent = getIntent();
         populateUI(intent);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void populateUI(Intent intent) {
@@ -88,18 +96,36 @@ public class DetailActivity extends AbstractActivityAction {
 
     @Override
     public void LoadData(String data) {
-        //Log.i(TAG, data);
+
         List<MovieReview> movieReviews = JsonParser.parseMovieReview(data);
+
+        if (movieReviews.size() == 0 ) {
+            reviewLabelTv.setText("No Reviews");
+            return;
+        }
+
+        ReviewAdapter adapter = new ReviewAdapter(movieReviews);
+        recyclerView.setAdapter(adapter);
+        hideViews();
     }
 
     @Override
     public void networkErrorHandler(String errorMsg) {
+        networkErrorTv.setText(errorMsg);
+        networkErrorTv.setVisibility(View.VISIBLE);
 
     }
 
     @OnClick(R.id.btn_load_review)
     public void onLoadReviewBtnClick(View view) {
+
         String path = PathBuilder.getMovieReviewPath(movie.getId());
         fetchMovie(path);
     }
+
+    private void hideViews() {
+        loadReviewBtn.setVisibility(View.GONE);
+        reviewLabelTv.setVisibility(View.VISIBLE);
+    }
+
 }
