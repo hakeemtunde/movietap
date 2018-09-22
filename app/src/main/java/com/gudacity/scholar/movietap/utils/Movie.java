@@ -1,10 +1,15 @@
 package com.gudacity.scholar.movietap.utils;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+@Entity
 public class Movie implements Parcelable {
 
+    @PrimaryKey
     private long id;
     private String title;
     private double voteAverage;
@@ -12,6 +17,7 @@ public class Movie implements Parcelable {
     private String synopsis;
     private String date;
 
+    @Ignore
     public static final Parcelable.Creator CREATOR =
             new Parcelable.Creator() {
 
@@ -25,6 +31,7 @@ public class Movie implements Parcelable {
 
             };
 
+    @Ignore
     public Movie(Parcel parcel) {
         this.id = parcel.readLong();
         this.title = parcel.readString();
@@ -33,7 +40,6 @@ public class Movie implements Parcelable {
         this.synopsis = parcel.readString();
         this.date = parcel.readString();
     }
-
 
     public Movie(long id, String title, double voteAverage, String posterPath, String synopsis, String date) {
         this.id = id;

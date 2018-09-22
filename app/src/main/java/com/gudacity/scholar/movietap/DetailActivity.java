@@ -9,7 +9,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.gudacity.scholar.movietap.database.MovieRepo;
+import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
@@ -53,6 +56,7 @@ public class DetailActivity extends AbstractActivityAction {
     Button favoriteBtn;
 
     private Movie movie;
+    private MovieRepo movieRepo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +67,7 @@ public class DetailActivity extends AbstractActivityAction {
         Intent intent = getIntent();
         populateUI(intent);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        movieRepo = new MovieRepo(getApplicationContext());
     }
 
     private void populateUI(Intent intent) {
@@ -106,6 +110,7 @@ public class DetailActivity extends AbstractActivityAction {
             return;
         }
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
         ReviewAdapter adapter = new ReviewAdapter(movieReviews);
         recyclerView.setAdapter(adapter);
         hideViews();
@@ -128,6 +133,16 @@ public class DetailActivity extends AbstractActivityAction {
     @OnClick(R.id.btn_favorite)
     public void onFavoriteBtnClick(View view) {
 
+        AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                movieRepo.save(movie);
+            }
+        });
+
+        Toast.makeText(getApplicationContext(),
+                "Favorite movie saved", Toast.LENGTH_SHORT)
+                .show();
     }
 
     private void hideViews() {
