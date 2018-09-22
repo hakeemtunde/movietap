@@ -1,9 +1,11 @@
 package com.gudacity.scholar.movietap;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -20,6 +22,8 @@ import com.gudacity.scholar.movietap.utils.MovieReview;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 import com.squareup.picasso.Picasso;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 import butterknife.BindView;
@@ -57,6 +61,8 @@ public class DetailActivity extends AbstractActivityAction {
 
     private Movie movie;
     private MovieRepo movieRepo;
+    private String mPosterPath;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,13 +86,13 @@ public class DetailActivity extends AbstractActivityAction {
         releaseDateTv.setText(movie.getDate());
         synopsisTv.setText(movie.getSynopsis());
 
-        String posterPath = movie.getPosterPath();
+        mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
 
         Picasso.with(this)
-                .load(PathBuilder.buildPosterImagePath(posterPath))
+                .load(mPosterPath)
                 .into(moviePosterIv);
-    }
 
+    }
 
     @Override
     public ProgressBar getProgressBar() {
@@ -136,7 +142,11 @@ public class DetailActivity extends AbstractActivityAction {
         AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
+
                 movieRepo.save(movie);
+                //save image
+                downloadMoviePoster();
+
             }
         });
 
@@ -149,5 +159,33 @@ public class DetailActivity extends AbstractActivityAction {
         loadReviewBtn.setVisibility(View.GONE);
         reviewLabelTv.setVisibility(View.VISIBLE);
     }
+
+    private void downloadMoviePoster() {
+
+        //Picasso.get().load(new File(...)).into(imageView3);
+        FileOutputStream foStream;
+        String posterName = movie.getPosterPath().substring(1,
+                movie.getPosterPath().indexOf("."));
+        try {
+            Bitmap bitmap = Picasso.with(this)
+                    .load(mPosterPath)
+                    .get();
+
+            foStream = getApplicationContext().openFileOutput(
+                    posterName, getApplicationContext().MODE_PRIVATE);
+
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, foStream);
+
+            foStream.close();
+
+        }catch (IOException ioe) {
+            Log.e(TAG, "image download failed...", ioe);
+            Toast.makeText(getApplicationContext(),
+                    "Error Occur while downloading poster", Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
 
 }
