@@ -16,4 +16,7 @@ public interface MovieDAO {
 
     @Query("SELECT * FROM movie")
     List<Movie> getAll();
+
+    @Query("SELECT * FROM movie WHERE id = :id")
+    Movie getMovie(long id);
 }

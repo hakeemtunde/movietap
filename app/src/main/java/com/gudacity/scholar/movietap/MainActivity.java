@@ -7,17 +7,21 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.gudacity.scholar.movietap.database.AppDatabase;
+import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AbstractActivityAction
@@ -31,6 +35,8 @@ public class MainActivity extends AbstractActivityAction
     public ProgressBar progressBar;
     @butterknife.BindView(R.id.rc_movie)
     public RecyclerView recyclerView;
+
+    public List<Movie> mFavoriteMovies = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +89,35 @@ public class MainActivity extends AbstractActivityAction
 
     @Override
     public void fetchMovie(String criteria) {
+
+        //favorite movie
+        if (criteria.equalsIgnoreCase("My Favorite")) {
+
+            final MainActivity mainActivity = this;
+
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mFavoriteMovies = AppDatabase.getsIntance(mainActivity.getApplicationContext())
+                            .movieDAO().getAll();
+
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MovieAdapter adapter = new MovieAdapter(mainActivity.getApplicationContext(),
+                                    mFavoriteMovies, mainActivity);
+                            recyclerView.setAdapter(adapter);
+                        }
+                    });
+
+
+                }
+            });
+
+            return;
+        }
+
+        //online
         boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
         MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this);
         movieRequest.execute(PathBuilder.getMoviePath(isPopular));

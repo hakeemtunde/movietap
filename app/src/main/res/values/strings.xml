@@ -14,5 +14,6 @@
     <string-array name="movie_sort_options">
         <item>Most Popular</item>
         <item>Highest Rated</item>
+        <item>My Favorite</item>
     </string-array>
 </resources>

@@ -1,5 +1,6 @@
 package com.gudacity.scholar.movietap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gudacity.scholar.movietap.database.AppDatabase;
 import com.gudacity.scholar.movietap.database.MovieRepo;
 import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.JsonParser;
@@ -62,6 +64,7 @@ public class DetailActivity extends AbstractActivityAction {
     private Movie movie;
     private MovieRepo movieRepo;
     private String mPosterPath;
+    private boolean isFavorite = false;
 
 
     @Override
@@ -70,16 +73,20 @@ public class DetailActivity extends AbstractActivityAction {
         setContentView(R.layout.activity_detail);
 
         ButterKnife.bind(this);
-        Intent intent = getIntent();
-        populateUI(intent);
 
         movieRepo = new MovieRepo(getApplicationContext());
+
+        Bundle bundle = getIntent().getExtras();
+        movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+
+        //isFavoriteMovie
+        ifFavoriteHideBtn();
+
+        populateUI();
+
     }
 
-    private void populateUI(Intent intent) {
-
-        Bundle bundle = intent.getExtras();
-        movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+    private void populateUI() {
 
         titleTv.setText(movie.getTitle());
         voteTv.setText(String.valueOf(movie.getVoteAverage()));
@@ -153,6 +160,36 @@ public class DetailActivity extends AbstractActivityAction {
         Toast.makeText(getApplicationContext(),
                 "Favorite movie saved", Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    private void ifFavoriteHideBtn() {
+
+        final DetailActivity detailActivity = this;
+
+        AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final Movie favoriteMovie = AppDatabase.getsIntance(detailActivity.getApplicationContext())
+                        .movieDAO().getMovie(movie.getId());
+
+                detailActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (favoriteMovie == null) return;
+
+                        //hide favorite btn
+                        if (favoriteMovie.getId() == movie.getId()) {
+                            favoriteBtn.setVisibility(View.INVISIBLE);
+                            isFavorite = true;
+                        }
+                    }
+                });
+
+            }
+        });
+
+
     }
 
     private void hideViews() {
