@@ -15,8 +15,7 @@
         android:paddingLeft="0dp"
         android:paddingEnd="10dp"
         android:paddingBottom="10dp"
-        android:contentDescription="@string/img_desc"
-        />
+        android:contentDescription="@string/img_desc"/>
 
         <TextView
             android:id="@+id/tv_title_label"
@@ -31,8 +30,6 @@
             app:layout_anchorGravity="end"
             style="@style/ViewStyle1" />
 
-
-
         <TextView
             android:id="@+id/tv_vote_label"
             android:text="@string/vote"
@@ -46,17 +43,12 @@
             style="@style/ViewStyle2"
             app:layout_anchorGravity="bottom|end"/>
 
-
-
-
         <TextView
             android:id="@+id/tv_release_date_label"
             android:text="@string/release_date"
             app:layout_anchor="@id/tv_vote_label"
             style="@style/ViewStyle2"
-            app:layout_anchorGravity="bottom"
-
-            />
+            app:layout_anchorGravity="bottom"/>
 
         <TextView
             android:id="@+id/tv_release_date"
@@ -64,8 +56,7 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@+id/tv_release_date_label"
             android:layout_gravity="end"
-            app:layout_anchorGravity="bottom|end"
-            />
+            app:layout_anchorGravity="bottom|end" />
 
 
         <TextView
@@ -75,10 +66,6 @@
             app:layout_anchorGravity="bottom|left"
             style="@style/SynopsisStyle" />
 
-    <ScrollView
-        style="@style/layoutWrapWidthHeight"
-        android:id="@+id/sv_control">
-
         <TextView
             android:id="@+id/tv_synopsis"
             app:layout_anchor="@id/tv_synopsis_label"
@@ -87,7 +74,7 @@
             android:padding="5dp"
             app:layout_anchorGravity="bottom|left"/>
 
-    </ScrollView>
+
 
     <LinearLayout
         android:orientation="vertical"
@@ -118,9 +105,6 @@
             android:id="@+id/progressBar"
             android:layout_gravity="bottom|center"
             style="@style/MainProgressBarStyle" />
-
-
-
     </LinearLayout>
 
     <include app:layout_anchor="@id/btn_load_review"
