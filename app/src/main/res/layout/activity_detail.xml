@@ -58,6 +58,24 @@
             android:layout_gravity="end"
             app:layout_anchorGravity="bottom|end" />
 
+    <Button
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorite"
+        android:layout_gravity="bottom|right"
+        app:layout_anchor="@id/tv_release_date_label"
+        app:layout_anchorGravity="bottom"/>
+
+    <Button
+        android:id="@+id/btn_play_trailer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Trailers"
+        android:layout_gravity="bottom|right"
+        app:layout_anchor="@id/btn_favorite"
+        app:layout_anchorGravity="end"/>
+
 
         <TextView
             android:id="@+id/tv_synopsis_label"

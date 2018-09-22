@@ -49,6 +49,8 @@ public class DetailActivity extends AbstractActivityAction {
     TextView reviewLabelTv;
     @BindView(R.id.network_error_tv)
     TextView networkErrorTv;
+    @BindView(R.id.btn_favorite)
+    Button favoriteBtn;
 
     private Movie movie;
 
@@ -121,6 +123,11 @@ public class DetailActivity extends AbstractActivityAction {
 
         String path = PathBuilder.getMovieReviewPath(movie.getId());
         fetchMovie(path);
+    }
+
+    @OnClick(R.id.btn_favorite)
+    public void onFavoriteBtnClick(View view) {
+
     }
 
     private void hideViews() {
