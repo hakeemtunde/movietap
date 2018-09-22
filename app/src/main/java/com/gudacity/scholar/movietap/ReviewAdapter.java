@@ -11,9 +11,6 @@ import com.gudacity.scholar.movietap.utils.MovieReview;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder> {
 
     private List<MovieReview> movieReviews;
@@ -44,16 +41,13 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ViewHolder
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-//        @BindView(R.id.tv_author)
         public TextView authorTv;
-//        @BindView(R.id.tv_content)
         public TextView contentTv;
 
         public ViewHolder(View view) {
             super(view);
             authorTv = (TextView)view.findViewById(R.id.tv_author);
             contentTv = (TextView)view.findViewById(R.id.tv_content);
-//            ButterKnife.bind(view);
         }
     }
 }
