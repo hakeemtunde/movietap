@@ -23,7 +23,9 @@ import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieReview;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -78,6 +80,7 @@ public class DetailActivity extends AbstractActivityAction {
 
         Bundle bundle = getIntent().getExtras();
         movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+        mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
 
         //isFavoriteMovie
         ifFavoriteHideBtn();
@@ -93,11 +96,19 @@ public class DetailActivity extends AbstractActivityAction {
         releaseDateTv.setText(movie.getDate());
         synopsisTv.setText(movie.getSynopsis());
 
-        mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
+        Picasso picasso = Picasso.with(this);
+        RequestCreator requestCreator;
 
-        Picasso.with(this)
-                .load(mPosterPath)
-                .into(moviePosterIv);
+        if(isFavorite) {
+            String posterName = movie.getPosterPath().substring(1,
+                    movie.getPosterPath().indexOf("."));
+                    requestCreator = picasso.load(new File(posterName));
+
+        } else {
+            requestCreator = picasso.load(mPosterPath);
+        }
+
+        requestCreator.into(moviePosterIv);
 
     }
 
@@ -156,6 +167,9 @@ public class DetailActivity extends AbstractActivityAction {
 
             }
         });
+
+        //hide favorite btn
+        favoriteBtn.setVisibility(View.INVISIBLE);
 
         Toast.makeText(getApplicationContext(),
                 "Favorite movie saved", Toast.LENGTH_SHORT)
