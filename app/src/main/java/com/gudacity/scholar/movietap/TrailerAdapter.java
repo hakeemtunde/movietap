@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.youtube.player.YouTubeThumbnailView;
-import com.gudacity.scholar.movietap.VideoUtil.VideoThumbnailLoader;
+import com.gudacity.scholar.movietap.VideoUtil.YouTubeVideoLoader;
 import com.gudacity.scholar.movietap.utils.MovieTrailer;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         final MovieTrailer trailer = trailers.get(position);
 
-        VideoThumbnailLoader.loadTrailerThumbnail(trailerActivity, trailerActivity.getApplicationContext(),
+        YouTubeVideoLoader.loadTrailerThumbnail(trailerActivity, trailerActivity.getApplicationContext(),
                 holder.thumbnailView, trailer.getKey());
     }
 

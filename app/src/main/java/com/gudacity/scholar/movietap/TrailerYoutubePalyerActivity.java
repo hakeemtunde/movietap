@@ -3,11 +3,10 @@ package com.gudacity.scholar.movietap;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.gudacity.scholar.movietap.VideoUtil.VideoThumbnailLoader;
+import com.gudacity.scholar.movietap.VideoUtil.YouTubeVideoLoader;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 
 import butterknife.BindView;
@@ -33,9 +32,8 @@ public class TrailerYoutubePalyerActivity extends YouTubeBaseActivity {
             trailerKey = intent.getStringExtra(JsonParser.REVIEW_KEY);
         }
 
-        Toast.makeText(this, "play trailer Id: "+ trailerKey, Toast.LENGTH_SHORT).show();
         Log.i(TAG, "play trailer ID: "+ trailerKey);
-        VideoThumbnailLoader.playTrailer(this, trailerKey, playerView);
+        YouTubeVideoLoader.playTrailer(this, trailerKey, playerView);
 
     }
 

@@ -3,17 +3,16 @@ package com.gudacity.scholar.movietap;
 import android.content.Intent;
 import android.os.Bundle;
 
-import android.os.PersistableBundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
+import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
+import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieTrailer;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
@@ -25,7 +24,6 @@ import butterknife.ButterKnife;
 
 public class TrailerActivity extends AbstractActivityAction {
 
-    public static final String ID = "MOVIE_ID";
     private static final String TAG = TrailerActivity.class.getSimpleName() ;
 
     @BindView((R.id.progressBar))
@@ -33,7 +31,7 @@ public class TrailerActivity extends AbstractActivityAction {
     @BindView(R.id.rv_trailers)
     public RecyclerView recyclerView;
 
-    private long movieId;
+    private Movie movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +41,13 @@ public class TrailerActivity extends AbstractActivityAction {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            movieId = savedInstanceState.getLong(ID);
+            movie = savedInstanceState.getParcelable(DetailActivity.MOVIE_PARCELABLE_KEY);
         }else {
             Intent intent = getIntent();
-            if (intent.hasExtra(ID)) {
-                movieId = intent.getLongExtra(ID, 0);
+            if (intent.hasExtra(DetailActivity.MOVIE_PARCELABLE_KEY)) {
+                movie = intent.getParcelableExtra(DetailActivity.MOVIE_PARCELABLE_KEY);
             }
         }
-
-
-        Toast.makeText(getApplicationContext(), "Number: "+ movieId, Toast.LENGTH_SHORT).show();
 
         recyclerView.setHasFixedSize(true);
         GridLayoutManager layoutManager = new GridLayoutManager(this,
@@ -60,8 +55,27 @@ public class TrailerActivity extends AbstractActivityAction {
 
         recyclerView.setLayoutManager(layoutManager);
 
-        fetchMovie(PathBuilder.getMovieTrailers(movieId));
+        fetchMovie(PathBuilder.getMovieTrailers(movie.getId()));
 
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = ExtraUtil.makeIntentWithParcelableData(
+                    this, DetailActivity.class, movie);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -87,14 +101,11 @@ public class TrailerActivity extends AbstractActivityAction {
     @Override
     public void networkErrorHandler(String errorMsg) {
 
+        Toast.makeText(this, "Network Error: "
+                + errorMsg, Toast.LENGTH_LONG).show();
+
         Log.e(TAG, "networkErrorHandler: "+errorMsg );
 
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putLong(ID, movieId);
     }
 
     public void launchYoutubePlayerActivity(String trailerKey) {

@@ -1,6 +1,5 @@
 package com.gudacity.scholar.movietap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -18,6 +17,7 @@ import android.widget.Toast;
 import com.gudacity.scholar.movietap.database.AppDatabase;
 import com.gudacity.scholar.movietap.database.MovieRepo;
 import com.gudacity.scholar.movietap.utils.AppExecutor;
+import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
@@ -70,6 +70,7 @@ public class DetailActivity extends AbstractActivityAction {
     private MovieRepo movieRepo;
     private String mPosterPath;
     private boolean isFavorite = false;
+    private int criteriaPosition;
 
 
     @Override
@@ -83,8 +84,12 @@ public class DetailActivity extends AbstractActivityAction {
             movie = (Movie)savedInstanceState.getParcelable(MOVIE_PARCELABLE_KEY);
         }else {
 
-            Bundle bundle = getIntent().getExtras();
-            movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+            if (getIntent().hasExtra(MOVIE_PARCELABLE_KEY)) {
+
+                Bundle bundle = getIntent().getExtras();
+                movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+                criteriaPosition = bundle.getInt(MainActivity.CRITERIA_POSITION);
+            } else { return; }
         }
 
         mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
@@ -94,6 +99,24 @@ public class DetailActivity extends AbstractActivityAction {
 
         populateUI();
 
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_PARCELABLE_KEY, movie);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.putExtra(MainActivity.CRITERIA_POSITION, criteriaPosition);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateUI() {
@@ -187,22 +210,11 @@ public class DetailActivity extends AbstractActivityAction {
 
     @OnClick(R.id.btn_show_trailer)
     public void onShowTrailersBtnClick(View view) {
-        Intent intent = new Intent(this, TrailerActivity.class);
-        intent.putExtra(TrailerActivity.ID, movie.getId());
+
+        Intent intent = ExtraUtil.makeIntentWithParcelableData(
+                        this, TrailerActivity.class, movie);
+
         startActivity(intent);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.home) return true;
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable(MOVIE_PARCELABLE_KEY, movie);
     }
 
     private void ifFavoriteHideBtn() {
@@ -242,7 +254,6 @@ public class DetailActivity extends AbstractActivityAction {
 
     private void downloadMoviePoster() {
 
-        //Picasso.get().load(new File(...)).into(imageView3);
         FileOutputStream foStream;
         String posterName = movie.getPosterPath().substring(1,
                 movie.getPosterPath().indexOf("."));
@@ -266,6 +277,5 @@ public class DetailActivity extends AbstractActivityAction {
         }
 
     }
-
 
 }

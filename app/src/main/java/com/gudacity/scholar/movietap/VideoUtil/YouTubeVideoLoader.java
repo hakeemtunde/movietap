@@ -14,7 +14,7 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 import static com.gudacity.scholar.movietap.BuildConfig.API_KEY;
 import static com.gudacity.scholar.movietap.BuildConfig.YOUTUBE_API_KEY;
 
-public class VideoThumbnailLoader {
+public class YouTubeVideoLoader {
 
     public static void loadTrailerThumbnail(final Activity activity, final Context context,
                                                 YouTubeThumbnailView thumbnailView,
@@ -43,8 +43,6 @@ public class VideoThumbnailLoader {
                                 //on error while trying to load
                                 Toast.makeText(context, "Error occur while loading "
                                         + videoKey + " thumbnail", Toast.LENGTH_SHORT).show();
-
-                                Log.e(null, "fail to load thumbnail.... "+errorReason.toString());
                             }
                         });
 
@@ -55,12 +53,7 @@ public class VideoThumbnailLoader {
                             YouTubeThumbnailView youTubeThumbnailView,
                             YouTubeInitializationResult youTubeInitializationResult) {
 
-                        Toast.makeText(context, "Error while initializing YOUTUBETHUMBNAIL ",
-                                Toast.LENGTH_SHORT).show();
-
                         youTubeInitializationResult.getErrorDialog(activity, 1).show();
-
-                        Log.e(null, "fail to load----- YOUTUBETHUMBNAIL: "+ videoKey);
 
                     }
                 });
@@ -68,7 +61,7 @@ public class VideoThumbnailLoader {
 
     public static void playTrailer(final Activity activity, final String trailerKey, final YouTubePlayerView playerView) {
 
-        playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+        playerView.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
             public void onInitializationSuccess(YouTubePlayer.Provider provider,
                                                 YouTubePlayer youTubePlayer, boolean wasRestored) {
@@ -84,7 +77,7 @@ public class VideoThumbnailLoader {
             public void onInitializationFailure(YouTubePlayer.Provider provider,
                                                 YouTubeInitializationResult youTubeInitializationResult) {
 
-                youTubeInitializationResult.getErrorDialog(activity, 1);
+                youTubeInitializationResult.getErrorDialog(activity, 1).show();
 
             }
         });

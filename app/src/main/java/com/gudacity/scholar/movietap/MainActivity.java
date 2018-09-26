@@ -1,6 +1,5 @@
 package com.gudacity.scholar.movietap;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatSpinner;
@@ -37,6 +36,8 @@ public class MainActivity extends AbstractActivityAction
     public RecyclerView recyclerView;
 
     public List<Movie> mFavoriteMovies = new ArrayList<>();
+    public static final String CRITERIA_POSITION = "position";
+    private int criteriaPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,24 @@ public class MainActivity extends AbstractActivityAction
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
 
+        if (savedInstanceState != null) {
+            criteriaPosition = savedInstanceState.getInt(CRITERIA_POSITION);
+                spinner.setSelection(criteriaPosition);
+                adapter.notifyDataSetChanged();
+        }
+
+        if(getIntent() != null && getIntent().hasExtra(CRITERIA_POSITION)) {
+            criteriaPosition = getIntent().getIntExtra(CRITERIA_POSITION, 0);
+            spinner.setSelection(criteriaPosition);
+            adapter.notifyDataSetChanged();
+        }
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(CRITERIA_POSITION, criteriaPosition);
     }
 
     @Override
@@ -126,14 +145,16 @@ public class MainActivity extends AbstractActivityAction
     @Override
     public void startNewActivityWithMovie(Movie movie) {
 
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
+        Intent intent = ExtraUtil.makeIntentWithParcelableData(this,
+                DetailActivity.class, movie);
+        intent.putExtra(CRITERIA_POSITION, criteriaPosition);
         startActivity(intent);
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        criteriaPosition = adapterView.getSelectedItemPosition();
         String criteria = (String) adapterView.getSelectedItem();
         fetchMovie(criteria);
     }
