@@ -2,7 +2,6 @@ package com.gudacity.scholar.movietap.VideoUtil;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -11,7 +10,6 @@ import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
-import static com.gudacity.scholar.movietap.BuildConfig.API_KEY;
 import static com.gudacity.scholar.movietap.BuildConfig.YOUTUBE_API_KEY;
 
 public class YouTubeVideoLoader {

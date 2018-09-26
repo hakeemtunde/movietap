@@ -31,7 +31,7 @@
             android:label="@string/title_activity_trailer"
             android:parentActivityName=".DetailActivity"
             android:theme="@style/DetailActivityTheme" />
-        <activity android:name=".TrailerYoutubePalyerActivity"></activity>
+        <activity android:name=".YoutubeTrailerPlayerActivity"></activity>
     </application>
 
 </manifest>

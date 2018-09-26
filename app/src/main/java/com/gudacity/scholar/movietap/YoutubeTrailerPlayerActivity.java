@@ -12,9 +12,9 @@ import com.gudacity.scholar.movietap.utils.JsonParser;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class TrailerYoutubePalyerActivity extends YouTubeBaseActivity {
+public class YoutubeTrailerPlayerActivity extends YouTubeBaseActivity {
 
-    private static final String TAG = TrailerYoutubePalyerActivity.class.getSimpleName();
+    private static final String TAG = YoutubeTrailerPlayerActivity.class.getSimpleName();
 
     @BindView(R.id.ytp_player)
     public YouTubePlayerView playerView;

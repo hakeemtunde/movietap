@@ -109,7 +109,7 @@ public class TrailerActivity extends AbstractActivityAction {
     }
 
     public void launchYoutubePlayerActivity(String trailerKey) {
-        Intent intent = new Intent(this, TrailerYoutubePalyerActivity.class);
+        Intent intent = new Intent(this, YoutubeTrailerPlayerActivity.class);
         intent.putExtra(JsonParser.REVIEW_KEY, trailerKey);
         startActivity(intent);
     }
