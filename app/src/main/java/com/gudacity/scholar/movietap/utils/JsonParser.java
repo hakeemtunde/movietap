@@ -26,6 +26,13 @@ public class JsonParser {
     private static final String CONTENT = "content";
     private static final String URL = "url";
 
+    private static final String REVIEW_NAME = "name";
+    private static final String REVIEW_KEY = "key";
+    private static final String REVIEW_SITE = "site";
+    private static final String REVIEW_SIZE = "size";
+    private static final String REVIEW_TYPE = "type";
+
+
     public static List<Movie> parseResponseToMovie(String response) {
         List<Movie> movies = new ArrayList<>();
         try {
@@ -45,6 +52,17 @@ public class JsonParser {
             Log.e(TAG, e.getMessage(), e);
         }
         return movieReviews;
+    }
+
+    public static List<MovieTrailer> perseTrailer(String response) {
+        List<MovieTrailer> trailers = new ArrayList<>();
+        try{
+            trailers = parseTrailerJSON(response);
+        }catch (JSONException e) {
+            Log.e(TAG,e.getMessage(), e);
+        }
+        return trailers;
+
     }
 
     private static List<Movie> parseMovieJSON(String responseData) throws JSONException {
@@ -91,5 +109,29 @@ public class JsonParser {
         }
 
         return movieReviews;
+    }
+
+    private static List<MovieTrailer> parseTrailerJSON(String responseData) throws JSONException {
+
+        List<MovieTrailer> trailers = new ArrayList<>();
+
+        if (responseData == null) return trailers;
+
+        JSONObject jsonObject = new JSONObject(responseData);
+        JSONArray jsonArray = jsonObject.getJSONArray(RESULT_KEY);
+
+        for (int i = 0; i < jsonArray.length(); i++) {
+
+            String id = jsonArray.getJSONObject(i).optString(ID, "-");
+            String name = jsonArray.getJSONObject(i).optString(REVIEW_NAME, "");
+            String key = jsonArray.getJSONObject(i).optString(REVIEW_KEY, "");
+            String type = jsonArray.getJSONObject(i).optString(REVIEW_TYPE, "-");
+            String site = jsonArray.getJSONObject(i).optString(REVIEW_SITE, "");
+            int size = jsonArray.getJSONObject(i).optInt(REVIEW_SIZE, 0);
+
+            MovieTrailer trailer = new MovieTrailer(id, name, key, type, site, size);
+            trailers.add(trailer);
+        }
+        return trailers;
     }
 }

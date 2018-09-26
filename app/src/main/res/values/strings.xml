@@ -16,4 +16,5 @@
         <item>Highest Rated</item>
         <item>My Favorite</item>
     </string-array>
+    <string name="title_activity_trailer">TrailerActivity</string>
 </resources>

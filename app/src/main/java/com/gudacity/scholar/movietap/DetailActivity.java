@@ -62,6 +62,8 @@ public class DetailActivity extends AbstractActivityAction {
     TextView networkErrorTv;
     @BindView(R.id.btn_favorite)
     Button favoriteBtn;
+    @BindView(R.id.btn_show_trailer)
+    Button showTrailerBtn;
 
     private Movie movie;
     private MovieRepo movieRepo;
@@ -76,10 +78,14 @@ public class DetailActivity extends AbstractActivityAction {
 
         ButterKnife.bind(this);
 
-        movieRepo = new MovieRepo(getApplicationContext());
+        if (savedInstanceState != null) {
+            movie = (Movie)savedInstanceState.getParcelable(MOVIE_PARCELABLE_KEY);
+        }else {
 
-        Bundle bundle = getIntent().getExtras();
-        movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+            Bundle bundle = getIntent().getExtras();
+            movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+        }
+
         mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
 
         //isFavoriteMovie
@@ -157,6 +163,7 @@ public class DetailActivity extends AbstractActivityAction {
     @OnClick(R.id.btn_favorite)
     public void onFavoriteBtnClick(View view) {
 
+        movieRepo = new MovieRepo(getApplicationContext());
         AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
@@ -168,12 +175,27 @@ public class DetailActivity extends AbstractActivityAction {
             }
         });
 
+
         //hide favorite btn
         favoriteBtn.setVisibility(View.INVISIBLE);
 
         Toast.makeText(getApplicationContext(),
                 "Favorite movie saved", Toast.LENGTH_SHORT)
                 .show();
+    }
+
+    @OnClick(R.id.btn_show_trailer)
+    public void onShowTrailersBtnClick(View view) {
+        Intent intent = new Intent(this, TrailerActivity.class);
+        intent.putExtra(TrailerActivity.ID, movie.getId());
+        startActivity(intent);
+
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable(MOVIE_PARCELABLE_KEY, movie);
     }
 
     private void ifFavoriteHideBtn() {

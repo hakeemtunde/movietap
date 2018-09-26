@@ -65,4 +65,16 @@ public class MovieTrailer {
     public void setSize(int size) {
         this.size = size;
     }
+
+    @Override
+    public String toString() {
+        return "MovieTrailer{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", key='" + key + '\'' +
+                ", site='" + site + '\'' +
+                ", type='" + type + '\'' +
+                ", size=" + size +
+                '}';
+    }
 }

@@ -68,7 +68,7 @@
         app:layout_anchorGravity="bottom"/>
 
     <Button
-        android:id="@+id/btn_play_trailer"
+        android:id="@+id/btn_show_trailer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Trailers"

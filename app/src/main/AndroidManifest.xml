@@ -20,13 +20,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".DetailActivity"
+        <activity
+            android:name=".DetailActivity"
             android:label="@string/detail_activity_name"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/DetailActivityTheme">
-        </activity>
-
-        <activity android:name=".NetworkErrorActivity"/>
+            android:theme="@style/DetailActivityTheme"></activity>
+        <activity android:name=".NetworkErrorActivity" />
+        <activity
+            android:name=".TrailerActivity"
+            android:label="@string/title_activity_trailer"
+            android:parentActivityName=".DetailActivity"
+            android:theme="@style/DetailActivityTheme"></activity>
     </application>
 
 </manifest>

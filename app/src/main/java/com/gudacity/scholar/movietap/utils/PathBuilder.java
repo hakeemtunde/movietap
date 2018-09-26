@@ -18,6 +18,8 @@ public class PathBuilder {
 
     private static final String MOVIE_REVIEW_PATH ="/reviews";
 
+    private static final String MOVIE_TRAILER_PATH = "/videos";
+
     public static String buildPosterImagePath(String posterPath) {
 
         return POSTER_BASE_URL + POSTER_SIZE + posterPath;
@@ -48,6 +50,11 @@ public class PathBuilder {
     public static String getMovieReviewPath(long id) {
         return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH + SLASH
                 + String.valueOf(id) + MOVIE_REVIEW_PATH + getApiConfiguration();
+    }
+
+    public static String getMovieTrailers(long id) {
+        return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH + SLASH
+                + String.valueOf(id) + MOVIE_TRAILER_PATH + getApiConfiguration();
     }
 
 }
