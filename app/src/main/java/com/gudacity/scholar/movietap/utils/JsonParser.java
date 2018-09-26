@@ -27,7 +27,7 @@ public class JsonParser {
     private static final String URL = "url";
 
     private static final String REVIEW_NAME = "name";
-    private static final String REVIEW_KEY = "key";
+    public static final String REVIEW_KEY = "key";
     private static final String REVIEW_SITE = "site";
     private static final String REVIEW_SIZE = "size";
     private static final String REVIEW_TYPE = "type";

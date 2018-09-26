@@ -6,14 +6,17 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.youtube.player.YouTubeInitializationResult;
+import com.google.android.youtube.player.YouTubePlayer;
+import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
+import static com.gudacity.scholar.movietap.BuildConfig.API_KEY;
 import static com.gudacity.scholar.movietap.BuildConfig.YOUTUBE_API_KEY;
 
 public class VideoThumbnailLoader {
 
-    public static void initializeVideoThumbnail(final Activity activity, final Context context,
+    public static void loadTrailerThumbnail(final Activity activity, final Context context,
                                                 YouTubeThumbnailView thumbnailView,
                                                 final String videoKey) {
 
@@ -61,5 +64,29 @@ public class VideoThumbnailLoader {
 
                     }
                 });
+    }
+
+    public static void playTrailer(final Activity activity, final String trailerKey, final YouTubePlayerView playerView) {
+
+        playerView.initialize(API_KEY, new YouTubePlayer.OnInitializedListener() {
+            @Override
+            public void onInitializationSuccess(YouTubePlayer.Provider provider,
+                                                YouTubePlayer youTubePlayer, boolean wasRestored) {
+
+                if(!wasRestored) {
+                    youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+                    youTubePlayer.cueVideo(trailerKey);
+                    youTubePlayer.play();
+                }
+            }
+
+            @Override
+            public void onInitializationFailure(YouTubePlayer.Provider provider,
+                                                YouTubeInitializationResult youTubeInitializationResult) {
+
+                youTubeInitializationResult.getErrorDialog(activity, 1);
+
+            }
+        });
     }
 }

@@ -1,7 +1,5 @@
 package com.gudacity.scholar.movietap;
 
-import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,16 +16,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
         implements RecyclerClickListener {
 
     private static final String TAG = TrailerAdapter.class.getSimpleName();
-    private Context context;
+
+    private TrailerActivity trailerActivity;
     private List<MovieTrailer> trailers;
-    private final Activity activity;
 
-
-    public TrailerAdapter(Activity activity, Context context, List<MovieTrailer> trailers) {
-        this.context = context;
+    public TrailerAdapter(TrailerActivity trailerActivity, List<MovieTrailer> trailers) {
         this.trailers = trailers;
-        this.activity = activity;
-
+        this.trailerActivity = trailerActivity;
     }
 
     @NonNull
@@ -44,7 +39,7 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
         final MovieTrailer trailer = trailers.get(position);
 
-        VideoThumbnailLoader.initializeVideoThumbnail(activity, context,
+        VideoThumbnailLoader.loadTrailerThumbnail(trailerActivity, trailerActivity.getApplicationContext(),
                 holder.thumbnailView, trailer.getKey());
     }
 
@@ -55,14 +50,14 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.ViewHold
 
     @Override
     public void onItemClicked(int position) {
-
-        //start to play movie
+        String key = trailers.get(position).getKey();
+        trailerActivity.launchYoutubePlayerActivity(key);
 
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements RecyclerView.OnClickListener {
 
-        public YouTubeThumbnailView thumbnailView;
+        YouTubeThumbnailView thumbnailView;
         RecyclerClickListener clickListener;
 
         public ViewHolder(View itemView, RecyclerClickListener listener) {

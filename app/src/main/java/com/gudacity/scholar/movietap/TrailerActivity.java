@@ -79,7 +79,7 @@ public class TrailerActivity extends AbstractActivityAction {
     @Override
     public void LoadData(String data) {
         List<MovieTrailer> trailers = JsonParser.perseTrailer(data);
-        TrailerAdapter adapter = new TrailerAdapter(this, getApplicationContext(), trailers);
+        TrailerAdapter adapter = new TrailerAdapter(this, trailers);
         recyclerView.setAdapter(adapter);
 
     }
@@ -95,10 +95,12 @@ public class TrailerActivity extends AbstractActivityAction {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putLong(ID, movieId);
-
     }
 
-    private void recyclerViewClickHandler() {
-
+    public void launchYoutubePlayerActivity(String trailerKey) {
+        Intent intent = new Intent(this, TrailerYoutubePalyerActivity.class);
+        intent.putExtra(JsonParser.REVIEW_KEY, trailerKey);
+        startActivity(intent);
     }
+
 }
