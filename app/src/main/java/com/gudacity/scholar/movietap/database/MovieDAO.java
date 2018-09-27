@@ -15,8 +15,8 @@ public interface MovieDAO {
     @Insert
     void addMovie(Movie movie);
 
-    @Query("DELETE FROM movie WHERE id = :id")
-    void delete(long id);
+    @Delete
+    void delete(Movie movie);
 
     @Query("SELECT * FROM movie")
     List<Movie> getAll();

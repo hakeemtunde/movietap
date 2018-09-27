@@ -22,7 +22,7 @@ public class MovieRepo {
         return mAppDatabase.movieDAO().getAll();
     }
 
-    public void unFavorite(long id) {
-        mAppDatabase.movieDAO().delete(id);
+    public void unFavorite(Movie movie) {
+        mAppDatabase.movieDAO().delete(movie);
     }
 }

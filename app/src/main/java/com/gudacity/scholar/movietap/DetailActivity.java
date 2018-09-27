@@ -210,7 +210,7 @@ public class DetailActivity extends AbstractActivityAction {
                 }
             });
 
-            //hide favorite btn
+            //update favorite btn
             favoriteBtn.setText(getString(R.string.unfavorite_btn_txt));
             isFavorite = true;
 
@@ -224,7 +224,7 @@ public class DetailActivity extends AbstractActivityAction {
                 @Override
                 public void run() {
 
-                    movieRepo.unFavorite(movie.getId());
+                    movieRepo.unFavorite(movie);
 
                     //Delete poster
                     String posterName = movie.getPosterPath().substring(1,
