@@ -10,7 +10,13 @@
     <string name="img_desc">Movie Image</string>
     <string name="load_review">Load reviews</string>
     <string name="tv_review_label_text">Reviews</string>
-
+    <string name="review_has_no_msg">Movie has no reviews</string>
+    <string name="favorite_btn_txt">"Favorite"</string>
+    <string name="unfavorite_btn_txt">Unfavorite</string>
+    <string name="favorite_save_msg">Favorite movie saved</string>
+    <string name="unfavorite_msg">Movie is no longer a favorite</string>
+    <string name="poster_download_error">Error Occur while downloading poster</string>
+    <string name="my_favorite_txt">My Favorite</string>
 
     <string-array name="movie_sort_options">
         <item>Most Popular</item>

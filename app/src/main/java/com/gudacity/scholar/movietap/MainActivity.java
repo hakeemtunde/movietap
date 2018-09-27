@@ -113,7 +113,7 @@ public class MainActivity extends AbstractActivityAction
     public void fetchMovie(String criteria) {
 
         //favorite movie
-        if (criteria.equalsIgnoreCase("My Favorite")) {
+        if (criteria.equalsIgnoreCase(getString(R.string.my_favorite_txt))) {
 
             final MainActivity mainActivity = this;
 

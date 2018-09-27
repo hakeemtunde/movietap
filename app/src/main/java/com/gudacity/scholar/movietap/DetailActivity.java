@@ -161,8 +161,9 @@ public class DetailActivity extends AbstractActivityAction {
         List<MovieReview> movieReviews = JsonParser.parseMovieReview(data);
 
         if (movieReviews.size() == 0 ) {
+
             Toast.makeText(getApplicationContext(),
-                    "Movie has no reviews", Toast.LENGTH_LONG).show();
+                    getString(R.string.review_has_no_msg), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -210,11 +211,11 @@ public class DetailActivity extends AbstractActivityAction {
             });
 
             //hide favorite btn
-            favoriteBtn.setText("Unfavorite");
+            favoriteBtn.setText(getString(R.string.unfavorite_btn_txt));
             isFavorite = true;
 
             Toast.makeText(getApplicationContext(),
-                    "Favorite movie saved", Toast.LENGTH_SHORT)
+                    getString(R.string.favorite_save_msg), Toast.LENGTH_SHORT)
                     .show();
         } else {
 
@@ -233,11 +234,11 @@ public class DetailActivity extends AbstractActivityAction {
                 }
             });
 
-            favoriteBtn.setText("Favorite");
+            favoriteBtn.setText(getString(R.string.favorite_btn_txt));
             isFavorite = false;
 
             Toast.makeText(getApplicationContext(),
-                    "Movie is no longer a favorite", Toast.LENGTH_SHORT)
+                    getString(R.string.unfavorite_msg), Toast.LENGTH_SHORT)
                     .show();
         }
 
@@ -267,9 +268,8 @@ public class DetailActivity extends AbstractActivityAction {
 
                         if (favoriteMovie == null) return;
 
-                        //hide favorite btn
                         if (favoriteMovie.getId() == movie.getId()) {
-                            favoriteBtn.setText("Unfavorite");
+                            favoriteBtn.setText(getString(R.string.unfavorite_btn_txt));
                             favoriteBtn.invalidate();
                             isFavorite = true;
                         }
@@ -305,9 +305,11 @@ public class DetailActivity extends AbstractActivityAction {
             foStream.close();
 
         }catch (IOException ioe) {
-            Log.e(TAG, "image download failed...", ioe);
+
+            Log.e(TAG, getString(R.string.poster_download_error), ioe);
+
             Toast.makeText(getApplicationContext(),
-                    "Error Occur while downloading poster", Toast.LENGTH_LONG).show();
+                    getString(R.string.poster_download_error), Toast.LENGTH_LONG).show();
 
         }
 
