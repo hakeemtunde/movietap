@@ -1,12 +1,15 @@
 package com.gudacity.scholar.movietap;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+
 import android.os.Bundle;
+
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -17,11 +20,12 @@ import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class MainActivity extends AbstractActivityAction
         implements MainActivityAction {
@@ -38,6 +42,8 @@ public class MainActivity extends AbstractActivityAction
     public List<Movie> mFavoriteMovies = new ArrayList<>();
     public static final String CRITERIA_POSITION = "position";
     private int criteriaPosition;
+
+    private static final int LOADER_ID = 101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,8 +144,14 @@ public class MainActivity extends AbstractActivityAction
 
         //online
         boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
-        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this);
-        movieRequest.execute(PathBuilder.getMoviePath(isPopular));
+
+        String path = PathBuilder.getMoviePath(isPopular);
+        Bundle bundle = new Bundle();
+        bundle.putString(MOVIE_PATH, path);
+
+        initializeLoader(bundle);
+
+
     }
 
     @Override
@@ -173,5 +185,9 @@ public class MainActivity extends AbstractActivityAction
         finish();
     }
 
+    @Override
+    public int getLoaderId() {
+        return LOADER_ID;
+    }
 
 }

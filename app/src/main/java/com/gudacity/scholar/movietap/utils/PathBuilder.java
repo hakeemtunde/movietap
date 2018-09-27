@@ -20,6 +20,8 @@ public class PathBuilder {
 
     private static final String MOVIE_TRAILER_PATH = "/videos";
 
+    public static final String MOVIE_PATH = "uri_path";
+
     public static String buildPosterImagePath(String posterPath) {
 
         return POSTER_BASE_URL + POSTER_SIZE + posterPath;

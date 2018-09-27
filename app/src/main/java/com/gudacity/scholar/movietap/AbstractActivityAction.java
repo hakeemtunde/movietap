@@ -4,8 +4,17 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+
+import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
+
+import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 abstract public class AbstractActivityAction
         extends AppCompatActivity implements ActivityActionHandlerInterface {
@@ -41,4 +50,37 @@ abstract public class AbstractActivityAction
         }
 
     }
+
+    @NonNull
+    @Override
+    public android.support.v4.content.Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+        loadProgressBar();
+        String path = args.getString(MOVIE_PATH);
+        MovieRequestAsyncTaskLoader asyncTaskLoader =
+                new MovieRequestAsyncTaskLoader(getApplicationContext(),
+                        this, path);
+        return asyncTaskLoader;
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull android.support.v4.content.Loader<String> loader, String data) {
+        LoadData(data);
+        unLoadProgressBar();
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull android.support.v4.content.Loader<String> loader) {
+    }
+
+    protected void initializeLoader(Bundle bundle) {
+        android.support.v4.app.LoaderManager loaderManager = getSupportLoaderManager();
+        Loader<String> loader = loaderManager.getLoader(getLoaderId());
+
+        if(loader == null) {
+            loaderManager.initLoader(getLoaderId(), bundle, this).forceLoad();
+        }else {
+            loaderManager.restartLoader(getLoaderId(), bundle, this).forceLoad();
+        }
+    }
+
 }

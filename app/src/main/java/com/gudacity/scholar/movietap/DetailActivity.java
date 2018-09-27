@@ -20,6 +20,7 @@ import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieReview;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
@@ -34,6 +35,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class DetailActivity extends AbstractActivityAction {
 
@@ -72,6 +75,7 @@ public class DetailActivity extends AbstractActivityAction {
     private boolean isFavorite = false;
     private int criteriaPosition;
 
+    private static final int LOADER_ID = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,9 +153,9 @@ public class DetailActivity extends AbstractActivityAction {
 
     @Override
     public void fetchMovie(String criteria) {
-        MovieRequestAsyncThread movieRequestAsyncThread =
-                new MovieRequestAsyncThread(this);
-        movieRequestAsyncThread.execute(criteria);
+        Bundle bundle = new Bundle();
+        bundle.putString(MOVIE_PATH, criteria);
+        initializeLoader(bundle);
     }
 
     @Override
@@ -160,7 +164,8 @@ public class DetailActivity extends AbstractActivityAction {
         List<MovieReview> movieReviews = JsonParser.parseMovieReview(data);
 
         if (movieReviews.size() == 0 ) {
-            reviewLabelTv.setText("No Reviews");
+            Toast.makeText(getApplicationContext(),
+                    "Movie has no reviews", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -168,6 +173,11 @@ public class DetailActivity extends AbstractActivityAction {
         ReviewAdapter adapter = new ReviewAdapter(movieReviews);
         recyclerView.setAdapter(adapter);
         hideViews();
+    }
+
+    @Override
+    public int getLoaderId() {
+        return LOADER_ID;
     }
 
     @Override
@@ -198,7 +208,6 @@ public class DetailActivity extends AbstractActivityAction {
 
             }
         });
-
 
         //hide favorite btn
         favoriteBtn.setVisibility(View.INVISIBLE);

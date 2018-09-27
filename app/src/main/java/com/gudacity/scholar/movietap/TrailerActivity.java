@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieTrailer;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
@@ -21,6 +22,8 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class TrailerActivity extends AbstractActivityAction {
 
@@ -32,6 +35,8 @@ public class TrailerActivity extends AbstractActivityAction {
     public RecyclerView recyclerView;
 
     private Movie movie;
+
+    private static final int LOADER_ID = 102;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +84,20 @@ public class TrailerActivity extends AbstractActivityAction {
     }
 
     @Override
+    public int getLoaderId() {
+        return LOADER_ID;
+    }
+
+    @Override
     public ProgressBar getProgressBar() {
         return progressBar;
     }
 
     @Override
     public void fetchMovie(String criteria) {
-        Log.i(TAG, "location: "+ criteria);
-        MovieRequestAsyncThread movieRequestAsyncThread = new MovieRequestAsyncThread(this);
-        movieRequestAsyncThread.execute(criteria);
+        Bundle bundle = new Bundle();
+        bundle.putString(MOVIE_PATH, criteria);
+        initializeLoader(bundle);
     }
 
     @Override
