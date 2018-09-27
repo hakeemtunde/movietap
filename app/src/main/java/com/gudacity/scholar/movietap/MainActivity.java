@@ -40,8 +40,6 @@ public class MainActivity extends AbstractActivityAction
     public RecyclerView recyclerView;
 
     public List<Movie> mFavoriteMovies = new ArrayList<>();
-    public static final String CRITERIA_POSITION = "position";
-    private int criteriaPosition;
 
     private static final int LOADER_ID = 101;
 
@@ -86,7 +84,7 @@ public class MainActivity extends AbstractActivityAction
                 adapter.notifyDataSetChanged();
         }
 
-        if(getIntent() != null && getIntent().hasExtra(CRITERIA_POSITION)) {
+        if(getIntent().hasExtra(CRITERIA_POSITION)) {
             criteriaPosition = getIntent().getIntExtra(CRITERIA_POSITION, 0);
             spinner.setSelection(criteriaPosition);
             adapter.notifyDataSetChanged();
@@ -157,9 +155,8 @@ public class MainActivity extends AbstractActivityAction
     @Override
     public void startNewActivityWithMovie(Movie movie) {
 
-        Intent intent = ExtraUtil.makeIntentWithParcelableData(this,
+        Intent intent = makeIntentWithParcelableData(this,
                 DetailActivity.class, movie);
-        intent.putExtra(CRITERIA_POSITION, criteriaPosition);
         startActivity(intent);
 
     }

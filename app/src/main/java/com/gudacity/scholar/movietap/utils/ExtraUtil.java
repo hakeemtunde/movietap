@@ -22,10 +22,4 @@ public class ExtraUtil {
         return Math.round(screenWidth / posterWidth);
     }
 
-    public static Intent makeIntentWithParcelableData(Context context, Class<?> activity, Movie movie) {
-        Intent intent = new Intent(context, activity);
-        intent.putExtra(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
-        return intent;
-
-    }
 }

@@ -2,6 +2,7 @@ package com.gudacity.scholar.movietap;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,12 +13,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 
+import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
 
 import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 abstract public class AbstractActivityAction
         extends AppCompatActivity implements ActivityActionHandlerInterface {
+
+    public static final String CRITERIA_POSITION = "position";
+    public static final String MOVIE_PARCELABLE_KEY = "movie";
+
+    protected int criteriaPosition;
 
     @Override
     public void loadProgressBar() {
@@ -54,7 +61,9 @@ abstract public class AbstractActivityAction
     @NonNull
     @Override
     public android.support.v4.content.Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
+
         loadProgressBar();
+
         String path = args.getString(MOVIE_PATH);
         MovieRequestAsyncTaskLoader asyncTaskLoader =
                 new MovieRequestAsyncTaskLoader(getApplicationContext(),
@@ -81,6 +90,14 @@ abstract public class AbstractActivityAction
         }else {
             loaderManager.restartLoader(getLoaderId(), bundle, this).forceLoad();
         }
+    }
+
+    protected Intent makeIntentWithParcelableData(Context context, Class<?> activity, Movie movie) {
+        Intent intent = new Intent(context, activity);
+        intent.putExtra(MOVIE_PARCELABLE_KEY, movie);
+        intent.putExtra(CRITERIA_POSITION, criteriaPosition);
+        return intent;
+
     }
 
 }

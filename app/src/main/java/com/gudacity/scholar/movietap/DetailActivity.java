@@ -20,8 +20,6 @@ import com.gudacity.scholar.movietap.utils.AppExecutor;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieReview;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 import com.squareup.picasso.Picasso;
@@ -36,13 +34,12 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.gudacity.scholar.movietap.MainActivity.CRITERIA_POSITION;
 import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class DetailActivity extends AbstractActivityAction {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
-
-    public static final String MOVIE_PARCELABLE_KEY = "movie";
 
     @BindView(R.id.tv_title)
     TextView titleTv;
@@ -73,7 +70,6 @@ public class DetailActivity extends AbstractActivityAction {
     private MovieRepo movieRepo;
     private String mPosterPath;
     private boolean isFavorite = false;
-    private int criteriaPosition;
 
     private static final int LOADER_ID = 102;
 
@@ -86,13 +82,14 @@ public class DetailActivity extends AbstractActivityAction {
 
         if (savedInstanceState != null) {
             movie = (Movie)savedInstanceState.getParcelable(MOVIE_PARCELABLE_KEY);
+            criteriaPosition = savedInstanceState.getInt(CRITERIA_POSITION);
         }else {
 
             if (getIntent().hasExtra(MOVIE_PARCELABLE_KEY)) {
 
                 Bundle bundle = getIntent().getExtras();
                 movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
-                criteriaPosition = bundle.getInt(MainActivity.CRITERIA_POSITION);
+                criteriaPosition = bundle.getInt(CRITERIA_POSITION);
             } else { return; }
         }
 
@@ -109,6 +106,7 @@ public class DetailActivity extends AbstractActivityAction {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(MOVIE_PARCELABLE_KEY, movie);
+        outState.putInt(CRITERIA_POSITION, criteriaPosition);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class DetailActivity extends AbstractActivityAction {
         if(item.getItemId() == android.R.id.home) {
 
             Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra(MainActivity.CRITERIA_POSITION, criteriaPosition);
+            intent.putExtra(CRITERIA_POSITION, criteriaPosition);
             startActivity(intent);
             return true;
         }
@@ -220,9 +218,8 @@ public class DetailActivity extends AbstractActivityAction {
     @OnClick(R.id.btn_show_trailer)
     public void onShowTrailersBtnClick(View view) {
 
-        Intent intent = ExtraUtil.makeIntentWithParcelableData(
+        Intent intent = makeIntentWithParcelableData(
                         this, TrailerActivity.class, movie);
-
         startActivity(intent);
     }
 

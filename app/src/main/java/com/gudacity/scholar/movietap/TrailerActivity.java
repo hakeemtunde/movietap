@@ -13,8 +13,6 @@ import android.widget.Toast;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.MovieTrailer;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 
@@ -23,6 +21,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.gudacity.scholar.movietap.MainActivity.CRITERIA_POSITION;
 import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class TrailerActivity extends AbstractActivityAction {
@@ -47,10 +46,12 @@ public class TrailerActivity extends AbstractActivityAction {
 
         if (savedInstanceState != null) {
             movie = savedInstanceState.getParcelable(DetailActivity.MOVIE_PARCELABLE_KEY);
+            criteriaPosition = savedInstanceState.getInt(CRITERIA_POSITION);
         }else {
             Intent intent = getIntent();
             if (intent.hasExtra(DetailActivity.MOVIE_PARCELABLE_KEY)) {
                 movie = intent.getParcelableExtra(DetailActivity.MOVIE_PARCELABLE_KEY);
+                criteriaPosition = intent.getIntExtra(CRITERIA_POSITION, 0);
             }
         }
 
@@ -68,13 +69,14 @@ public class TrailerActivity extends AbstractActivityAction {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
+        outState.putInt(CRITERIA_POSITION, criteriaPosition);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
-            Intent intent = ExtraUtil.makeIntentWithParcelableData(
+            Intent intent = makeIntentWithParcelableData(
                     this, DetailActivity.class, movie);
             startActivity(intent);
             return true;
