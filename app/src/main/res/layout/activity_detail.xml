@@ -4,19 +4,18 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DetailActivity"
-    android:padding="16dp">
+    android:padding="@dimen/layout_padding">
 
 
     <ImageView
         android:id="@+id/detail_movie_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="10dp"
+        android:paddingRight="@dimen/detail_movie_poster_padding"
         android:paddingLeft="0dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
-        android:contentDescription="@string/img_desc"
-        />
+        android:paddingEnd="@dimen/detail_movie_poster_padding"
+        android:paddingBottom="@dimen/detail_movie_poster_padding"
+        android:contentDescription="@string/img_desc"/>
 
         <TextView
             android:id="@+id/tv_title_label"
@@ -31,8 +30,6 @@
             app:layout_anchorGravity="end"
             style="@style/ViewStyle1" />
 
-
-
         <TextView
             android:id="@+id/tv_vote_label"
             android:text="@string/vote"
@@ -46,17 +43,12 @@
             style="@style/ViewStyle2"
             app:layout_anchorGravity="bottom|end"/>
 
-
-
-
         <TextView
             android:id="@+id/tv_release_date_label"
             android:text="@string/release_date"
             app:layout_anchor="@id/tv_vote_label"
             style="@style/ViewStyle2"
-            app:layout_anchorGravity="bottom"
-
-            />
+            app:layout_anchorGravity="bottom"/>
 
         <TextView
             android:id="@+id/tv_release_date"
@@ -64,8 +56,25 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@+id/tv_release_date_label"
             android:layout_gravity="end"
-            app:layout_anchorGravity="bottom|end"
-            />
+            app:layout_anchorGravity="bottom|end" />
+
+    <Button
+        android:id="@+id/btn_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Favorite"
+        android:layout_gravity="bottom|right"
+        app:layout_anchor="@id/tv_release_date_label"
+        app:layout_anchorGravity="bottom"/>
+
+    <Button
+        android:id="@+id/btn_show_trailer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View Trailers"
+        android:layout_gravity="bottom|right"
+        app:layout_anchor="@id/btn_favorite"
+        app:layout_anchorGravity="end"/>
 
 
         <TextView
@@ -75,16 +84,49 @@
             app:layout_anchorGravity="bottom|left"
             style="@style/SynopsisStyle" />
 
-    <ScrollView
-        style="@style/layoutWrapWidthHeight"
-        android:layout_marginTop="180dp" >
-
         <TextView
             android:id="@+id/tv_synopsis"
             app:layout_anchor="@id/tv_synopsis_label"
             style="@style/SynopsisStyle"
+            android:layout_marginTop="@dimen/tv_synopsis_margin_top"
+            android:padding="@dimen/tv_synopsis_padding"
             app:layout_anchorGravity="bottom|left"/>
 
-    </ScrollView>
+    <LinearLayout
+        android:id="@+id/layout_linear"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        app:layout_anchor="@id/tv_synopsis"
+        app:layout_anchorGravity="bottom">
+
+        <Button
+            android:id="@+id/btn_load_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/load_review"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/network_error_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="bottom|center"
+            android:layout_marginTop="@dimen/network_error_tv_margin_top"
+            android:textColor="@color/colorAccent"
+            android:text=""/>
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_gravity="bottom|center"
+            style="@style/MainProgressBarStyle" />
+    </LinearLayout>
+
+    <include
+        app:layout_anchor="@id/tv_synopsis"
+        app:layout_anchorGravity="bottom"
+        layout="@layout/review_main"/>
 
 </android.support.design.widget.CoordinatorLayout>

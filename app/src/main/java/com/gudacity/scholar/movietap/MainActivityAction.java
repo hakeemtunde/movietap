@@ -4,19 +4,8 @@ import android.widget.AdapterView;
 
 import com.gudacity.scholar.movietap.utils.Movie;
 
-import java.util.List;
-
 public interface MainActivityAction extends AdapterView.OnItemSelectedListener{
 
-    public void loadProgressBar();
+    void startNewActivityWithMovie(Movie movie);
 
-    public void unLoadProgressBar();
-
-    public void LoadAdapterData(List<Movie> movies);
-
-    public void fetchMovie(String criteria);
-
-    public void startNewActivityWithMovie(Movie movie);
-
-    public void launchNetworkErrorActivity(String errormsg);
 }

@@ -20,7 +20,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
     private static final String TAG = MovieAdapter.class.getSimpleName();
 
     private final Context context;
-    private final List<Movie> movies;
+    private List<Movie> movies;
     private final MainActivityAction activityAction;
 
     public MovieAdapter(Context context, List<Movie> movies, MainActivityAction activityAction) {
@@ -61,6 +61,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
         //start new activity
         Movie movie = movies.get(position);
         activityAction.startNewActivityWithMovie(movie);
+    }
+
+    public void setData(List<Movie> movies) {
+        this.movies = movies;
+        notifyDataSetChanged();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder

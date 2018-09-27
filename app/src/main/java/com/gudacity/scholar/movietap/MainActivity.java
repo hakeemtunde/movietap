@@ -1,49 +1,56 @@
 package com.gudacity.scholar.movietap;
 
-import android.accounts.NetworkErrorException;
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.gudacity.scholar.movietap.database.AppDatabase;
+import com.gudacity.scholar.movietap.utils.AppExecutor;
+import com.gudacity.scholar.movietap.utils.ExtraUtil;
+import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncThread;
 import com.gudacity.scholar.movietap.utils.PathBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity
+import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+
+public class MainActivity extends AbstractActivityAction
         implements MainActivityAction {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
     private static final String DEFAULT_CRITERIA = "Most Popular";
+    private int posterWidth = 250;
 
     @butterknife.BindView(R.id.progressBar)
     public ProgressBar progressBar;
-
     @butterknife.BindView(R.id.rc_movie)
     public RecyclerView recyclerView;
 
+    private List<Movie> mFavoriteMovies = new ArrayList<>();
+
+    private static final int LOADER_ID = 101;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         butterknife.ButterKnife.bind(this);
 
-        Toolbar toolbar  = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         if (toolbar != null) {
             setSupportActionBar(toolbar);
@@ -52,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         //check network status
         ifNetworkErrorLaunchNetworkErrorActivity(getApplicationContext());
 
-        AppCompatSpinner spinner = (AppCompatSpinner)findViewById(R.id.spinner);
+        AppCompatSpinner spinner = (AppCompatSpinner) findViewById(R.id.spinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.movie_sort_options, android.R.layout.simple_spinner_item
@@ -62,30 +69,42 @@ public class MainActivity extends AppCompatActivity
 
         recyclerView.setHasFixedSize(true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
-                3, GridLayoutManager.VERTICAL, false);
+                ExtraUtil.calculateBestSpanCount(posterWidth, getWindowManager()),
+                GridLayoutManager.VERTICAL, false);
+
         recyclerView.setLayoutManager(gridLayoutManager);
 
         spinner.setOnItemSelectedListener(this);
         spinner.setAdapter(adapter);
 
+        if (savedInstanceState != null) {
+            criteriaPosition = savedInstanceState.getInt(CRITERIA_POSITION);
+                spinner.setSelection(criteriaPosition);
+                adapter.notifyDataSetChanged();
+        }
 
+        if(getIntent().hasExtra(CRITERIA_POSITION)) {
+            criteriaPosition = getIntent().getIntExtra(CRITERIA_POSITION, 0);
+            spinner.setSelection(criteriaPosition);
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
     @Override
-    public void loadProgressBar() {
-
-        progressBar.setIndeterminate(true);
-        progressBar.setVisibility(View.VISIBLE);
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(CRITERIA_POSITION, criteriaPosition);
     }
 
     @Override
-    public void unLoadProgressBar() {
-        progressBar.setVisibility(View.GONE);
+    public ProgressBar getProgressBar() {
+        return this.progressBar;
     }
 
     @Override
-    public void LoadAdapterData(List<Movie> movies) {
+    public void LoadData(String data) {
+        List<Movie> movies = JsonParser.parseResponseToMovie(data);
         MovieAdapter adapter = new MovieAdapter(getApplicationContext(), movies, this);
         recyclerView.setAdapter(adapter);
     }
@@ -93,62 +112,78 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void fetchMovie(String criteria) {
 
+        //favorite movie
+        if (criteria.equalsIgnoreCase("My Favorite")) {
+
+            final MainActivity mainActivity = this;
+
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+                    mFavoriteMovies = AppDatabase.getsIntance(mainActivity.getApplicationContext())
+                            .movieDAO().getAll();
+
+                    mainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            MovieAdapter adapter = new MovieAdapter(mainActivity.getApplicationContext(),
+                                    mFavoriteMovies, mainActivity);
+                            recyclerView.setAdapter(adapter);
+                        }
+                    });
+
+
+                }
+            });
+
+            return;
+        }
+
+        //online
         boolean isPopular = criteria.equals(DEFAULT_CRITERIA);
 
-        MovieRequestAsyncThread movieRequest = new MovieRequestAsyncThread(this );
+        String path = PathBuilder.getMoviePath(isPopular);
+        Bundle bundle = new Bundle();
+        bundle.putString(MOVIE_PATH, path);
 
-        movieRequest.execute(PathBuilder.getMoviePath(isPopular));
+        initializeLoader(bundle);
+
+
     }
 
     @Override
     public void startNewActivityWithMovie(Movie movie) {
 
-        Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra(DetailActivity.MOVIE_PARCELABLE_KEY, movie);
+        Intent intent = makeIntentWithParcelableData(this,
+                DetailActivity.class, movie);
         startActivity(intent);
 
     }
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+        criteriaPosition = adapterView.getSelectedItemPosition();
         String criteria = (String) adapterView.getSelectedItem();
         fetchMovie(criteria);
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {}
+    public void onNothingSelected(AdapterView<?> adapterView) {
+    }
 
     @Override
-    public void launchNetworkErrorActivity(String errormsg) {
+    public void networkErrorHandler(String errorMsg) {
 
         Intent intent = new Intent(this, NetworkErrorActivity.class);
-        intent.putExtra(NetworkErrorActivity.NETWORK_ERROR_EXTRA, errormsg);
+        intent.putExtra(NetworkErrorActivity.NETWORK_ERROR_EXTRA, errorMsg);
         startActivity(intent);
 
         finish();
     }
 
-    private void ifNetworkErrorLaunchNetworkErrorActivity(Context context)  {
-
-        ConnectivityManager manager =  (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-
-
-        try {
-            NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-            if (networkInfo == null || !networkInfo.isConnected()) {
-
-                throw new NetworkErrorException(
-                        getString(R.string.network_error_msg));
-            }
-
-        } catch (NetworkErrorException e) {
-
-            launchNetworkErrorActivity(e.getMessage());
-
-        }
-
-
+    @Override
+    public int getLoaderId() {
+        return LOADER_ID;
     }
+
 }

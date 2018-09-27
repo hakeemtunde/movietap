@@ -4,15 +4,23 @@ import com.gudacity.scholar.movietap.BuildConfig;
 
 public class PathBuilder {
 
+    private static final String MOVIE_INIT_PATH = "/movie";
     private static final String CONFIG_PATH = "?api_key=";
     private static final String API_BASE_URL = "http://api.themoviedb.org/";
     private static final int API_VERSION = 3;
-    private static final String POPULAR_MOVIE_PATH = "/movie/popular";
-    private static final String TOP_RATED_MOVIE_PATH = "/movie/top_rated";
+    private static final String POPULAR_MOVIE_PATH = MOVIE_INIT_PATH + "/popular";
+    private static final String TOP_RATED_MOVIE_PATH = MOVIE_INIT_PATH +"/top_rated";
     private static final String POSTER_BASE_URL = "http://image.tmdb.org/t/p/";
     private static final String POSTER_SIZE ="w185";
+    private static final String SLASH = "/";
 
     private static final String API_KEY = BuildConfig.API_KEY;
+
+    private static final String MOVIE_REVIEW_PATH ="/reviews";
+
+    private static final String MOVIE_TRAILER_PATH = "/videos";
+
+    public static final String MOVIE_PATH = "uri_path";
 
     public static String buildPosterImagePath(String posterPath) {
 
@@ -39,6 +47,16 @@ public class PathBuilder {
         stringBuilder.append(getApiConfiguration());
 
         return stringBuilder.toString();
+    }
+
+    public static String getMovieReviewPath(long id) {
+        return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH + SLASH
+                + String.valueOf(id) + MOVIE_REVIEW_PATH + getApiConfiguration();
+    }
+
+    public static String getMovieTrailers(long id) {
+        return API_BASE_URL + API_VERSION + MOVIE_INIT_PATH + SLASH
+                + String.valueOf(id) + MOVIE_TRAILER_PATH + getApiConfiguration();
     }
 
 }
