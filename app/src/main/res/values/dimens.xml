@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="card_margin">5dp</dimen>
+    <dimen name="view_padding">5dp</dimen>
+    <dimen name="view_margin">5dp</dimen>
     <dimen name="card_album_radius">5dp</dimen>
+    <dimen name="layout_padding">16dp</dimen>
+    <dimen name="detail_movie_poster_padding">10dp</dimen>
+    <dimen name="tv_synopsis_padding">5dp</dimen>
+    <dimen name="tv_synopsis_margin_top">150dp</dimen>
+    <dimen name="network_error_tv_margin_top">40dp</dimen>
+
+    <dimen name="rc_movie_margin_top">50dp</dimen>
+
+    <dimen name="network_view_margin">8dp</dimen>
+
+    <dimen name="horizontal_bias">0.501</dimen>
+    <dimen name="vertical_bias">0.026</dimen>
+
+    <dimen name="text_size">20sp</dimen>
 </resources>

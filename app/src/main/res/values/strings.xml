@@ -9,6 +9,7 @@
     <string name="btn_retry_text">Retry</string>
     <string name="img_desc">Movie Image</string>
     <string name="load_review">Load reviews</string>
+    <string name="tv_review_label_text">Reviews</string>
 
 
     <string-array name="movie_sort_options">

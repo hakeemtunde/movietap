@@ -4,17 +4,17 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".DetailActivity"
-    android:padding="16dp">
+    android:padding="@dimen/layout_padding">
 
 
     <ImageView
         android:id="@+id/detail_movie_poster"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingRight="10dp"
+        android:paddingRight="@dimen/detail_movie_poster_padding"
         android:paddingLeft="0dp"
-        android:paddingEnd="10dp"
-        android:paddingBottom="10dp"
+        android:paddingEnd="@dimen/detail_movie_poster_padding"
+        android:paddingBottom="@dimen/detail_movie_poster_padding"
         android:contentDescription="@string/img_desc"/>
 
         <TextView
@@ -88,11 +88,9 @@
             android:id="@+id/tv_synopsis"
             app:layout_anchor="@id/tv_synopsis_label"
             style="@style/SynopsisStyle"
-            android:layout_marginTop="150dp"
-            android:padding="5dp"
+            android:layout_marginTop="@dimen/tv_synopsis_margin_top"
+            android:padding="@dimen/tv_synopsis_padding"
             app:layout_anchorGravity="bottom|left"/>
-
-
 
     <LinearLayout
         android:id="@+id/layout_linear"
@@ -116,7 +114,7 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="bottom|center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="@dimen/network_error_tv_margin_top"
             android:textColor="@color/colorAccent"
             android:text=""/>
 
