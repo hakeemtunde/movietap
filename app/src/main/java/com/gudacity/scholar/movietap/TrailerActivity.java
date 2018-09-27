@@ -105,6 +105,12 @@ public class TrailerActivity extends AbstractActivityAction {
     @Override
     public void LoadData(String data) {
         List<MovieTrailer> trailers = JsonParser.perseTrailer(data);
+
+        if (trailers.size() == 0) {
+            Toast.makeText(getApplicationContext(),
+                    "Movie has no trailer", Toast.LENGTH_LONG).show();
+        }
+
         TrailerAdapter adapter = new TrailerAdapter(this, trailers);
         recyclerView.setAdapter(adapter);
 
@@ -112,9 +118,6 @@ public class TrailerActivity extends AbstractActivityAction {
 
     @Override
     public void networkErrorHandler(String errorMsg) {
-
-        Toast.makeText(this, "Network Error: "
-                + errorMsg, Toast.LENGTH_LONG).show();
 
         Log.e(TAG, "networkErrorHandler: "+errorMsg );
 
