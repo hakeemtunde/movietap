@@ -34,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.gudacity.scholar.movietap.MainActivity.CRITERIA_POSITION;
 import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class DetailActivity extends AbstractActivityAction {
@@ -96,7 +95,7 @@ public class DetailActivity extends AbstractActivityAction {
         mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
 
         //isFavoriteMovie
-        ifFavoriteHideBtn();
+        ifFavoriteUpdateBtn();
 
         populateUI();
 
@@ -196,23 +195,52 @@ public class DetailActivity extends AbstractActivityAction {
     public void onFavoriteBtnClick(View view) {
 
         movieRepo = new MovieRepo(getApplicationContext());
-        AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
 
-                movieRepo.save(movie);
-                //save image
-                downloadMoviePoster();
+        if (!isFavorite) {
 
-            }
-        });
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
 
-        //hide favorite btn
-        favoriteBtn.setVisibility(View.INVISIBLE);
+                    movieRepo.save(movie);
+                    //save image
+                    downloadMoviePoster();
 
-        Toast.makeText(getApplicationContext(),
-                "Favorite movie saved", Toast.LENGTH_SHORT)
-                .show();
+                }
+            });
+
+            //hide favorite btn
+            favoriteBtn.setText("Unfavorite");
+            isFavorite = true;
+
+            Toast.makeText(getApplicationContext(),
+                    "Favorite movie saved", Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+
+            //is favorite movie
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    movieRepo.unFavorite(movie.getId());
+
+                    //Delete poster
+                    String posterName = movie.getPosterPath().substring(1,
+                            movie.getPosterPath().indexOf("."));
+
+                    getApplicationContext().deleteFile(posterName);
+                }
+            });
+
+            favoriteBtn.setText("Favorite");
+            isFavorite = false;
+
+            Toast.makeText(getApplicationContext(),
+                    "Movie is no longer a favorite", Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
     @OnClick(R.id.btn_show_trailer)
@@ -223,7 +251,7 @@ public class DetailActivity extends AbstractActivityAction {
         startActivity(intent);
     }
 
-    private void ifFavoriteHideBtn() {
+    private void ifFavoriteUpdateBtn() {
 
         final DetailActivity detailActivity = this;
 
@@ -241,7 +269,8 @@ public class DetailActivity extends AbstractActivityAction {
 
                         //hide favorite btn
                         if (favoriteMovie.getId() == movie.getId()) {
-                            favoriteBtn.setVisibility(View.INVISIBLE);
+                            favoriteBtn.setText("Unfavorite");
+                            favoriteBtn.invalidate();
                             isFavorite = true;
                         }
                     }

@@ -16,10 +16,13 @@ public class MovieRepo {
 
     public void save(Movie movie) {
         mAppDatabase.movieDAO().addMovie(movie);
-        mAppDatabase.close();
     }
 
     public List<Movie> getAll() {
         return mAppDatabase.movieDAO().getAll();
+    }
+
+    public void unFavorite(long id) {
+        mAppDatabase.movieDAO().delete(id);
     }
 }
