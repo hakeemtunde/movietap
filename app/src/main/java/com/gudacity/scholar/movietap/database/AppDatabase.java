@@ -22,7 +22,6 @@ public abstract class AppDatabase extends RoomDatabase {
                         AppDatabase.class, DBNAME).build();
             }
         }
-        Log.i(TAG, "DATABASE IS UP");
         return sInstance;
     }
 

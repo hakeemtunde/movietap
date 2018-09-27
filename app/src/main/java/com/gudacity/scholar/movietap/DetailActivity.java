@@ -34,7 +34,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.gudacity.scholar.movietap.MainActivity.CRITERIA_POSITION;
 import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
 
 public class DetailActivity extends AbstractActivityAction {
@@ -96,7 +95,7 @@ public class DetailActivity extends AbstractActivityAction {
         mPosterPath = PathBuilder.buildPosterImagePath(movie.getPosterPath());
 
         //isFavoriteMovie
-        ifFavoriteHideBtn();
+        ifFavoriteUpdateBtn();
 
         populateUI();
 
@@ -162,8 +161,9 @@ public class DetailActivity extends AbstractActivityAction {
         List<MovieReview> movieReviews = JsonParser.parseMovieReview(data);
 
         if (movieReviews.size() == 0 ) {
+
             Toast.makeText(getApplicationContext(),
-                    "Movie has no reviews", Toast.LENGTH_LONG).show();
+                    getString(R.string.review_has_no_msg), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -196,23 +196,52 @@ public class DetailActivity extends AbstractActivityAction {
     public void onFavoriteBtnClick(View view) {
 
         movieRepo = new MovieRepo(getApplicationContext());
-        AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
-            @Override
-            public void run() {
 
-                movieRepo.save(movie);
-                //save image
-                downloadMoviePoster();
+        if (!isFavorite) {
 
-            }
-        });
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
 
-        //hide favorite btn
-        favoriteBtn.setVisibility(View.INVISIBLE);
+                    movieRepo.save(movie);
+                    //save image
+                    downloadMoviePoster();
 
-        Toast.makeText(getApplicationContext(),
-                "Favorite movie saved", Toast.LENGTH_SHORT)
-                .show();
+                }
+            });
+
+            //update favorite btn
+            favoriteBtn.setText(getString(R.string.unfavorite_btn_txt));
+            isFavorite = true;
+
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.favorite_save_msg), Toast.LENGTH_SHORT)
+                    .show();
+        } else {
+
+            //is favorite movie
+            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
+                @Override
+                public void run() {
+
+                    movieRepo.unFavorite(movie);
+
+                    //Delete poster
+                    String posterName = movie.getPosterPath().substring(1,
+                            movie.getPosterPath().indexOf("."));
+
+                    getApplicationContext().deleteFile(posterName);
+                }
+            });
+
+            favoriteBtn.setText(getString(R.string.favorite_btn_txt));
+            isFavorite = false;
+
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.unfavorite_msg), Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
     @OnClick(R.id.btn_show_trailer)
@@ -223,7 +252,7 @@ public class DetailActivity extends AbstractActivityAction {
         startActivity(intent);
     }
 
-    private void ifFavoriteHideBtn() {
+    private void ifFavoriteUpdateBtn() {
 
         final DetailActivity detailActivity = this;
 
@@ -239,9 +268,9 @@ public class DetailActivity extends AbstractActivityAction {
 
                         if (favoriteMovie == null) return;
 
-                        //hide favorite btn
                         if (favoriteMovie.getId() == movie.getId()) {
-                            favoriteBtn.setVisibility(View.INVISIBLE);
+                            favoriteBtn.setText(getString(R.string.unfavorite_btn_txt));
+                            favoriteBtn.invalidate();
                             isFavorite = true;
                         }
                     }
@@ -276,9 +305,11 @@ public class DetailActivity extends AbstractActivityAction {
             foStream.close();
 
         }catch (IOException ioe) {
-            Log.e(TAG, "image download failed...", ioe);
+
+            Log.e(TAG, getString(R.string.poster_download_error), ioe);
+
             Toast.makeText(getApplicationContext(),
-                    "Error Occur while downloading poster", Toast.LENGTH_LONG).show();
+                    getString(R.string.poster_download_error), Toast.LENGTH_LONG).show();
 
         }
 
