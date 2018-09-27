@@ -1,6 +1,5 @@
 package com.gudacity.scholar.movietap.utils;
 
-import android.support.v4.widget.AutoScrollHelper;
 import android.util.Log;
 
 import org.json.JSONArray;

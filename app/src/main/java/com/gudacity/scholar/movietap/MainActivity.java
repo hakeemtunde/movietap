@@ -1,6 +1,5 @@
 package com.gudacity.scholar.movietap;
 
-import android.app.LoaderManager;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -32,14 +31,14 @@ public class MainActivity extends AbstractActivityAction
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String DEFAULT_CRITERIA = "Most Popular";
-    int posterWidth = 250;
+    private int posterWidth = 250;
 
     @butterknife.BindView(R.id.progressBar)
     public ProgressBar progressBar;
     @butterknife.BindView(R.id.rc_movie)
     public RecyclerView recyclerView;
 
-    public List<Movie> mFavoriteMovies = new ArrayList<>();
+    private List<Movie> mFavoriteMovies = new ArrayList<>();
 
     private static final int LOADER_ID = 101;
 

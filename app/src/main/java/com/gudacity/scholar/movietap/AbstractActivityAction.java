@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.gudacity.scholar.movietap.utils.Movie;
@@ -65,10 +64,9 @@ abstract public class AbstractActivityAction
         loadProgressBar();
 
         String path = args.getString(MOVIE_PATH);
-        MovieRequestAsyncTaskLoader asyncTaskLoader =
-                new MovieRequestAsyncTaskLoader(getApplicationContext(),
-                        this, path);
-        return asyncTaskLoader;
+        return new MovieRequestAsyncTaskLoader(getApplicationContext(),
+                this, path);
+
     }
 
     @Override

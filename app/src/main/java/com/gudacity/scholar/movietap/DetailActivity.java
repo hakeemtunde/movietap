@@ -1,5 +1,6 @@
 package com.gudacity.scholar.movietap;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 import com.gudacity.scholar.movietap.database.AppDatabase;
 import com.gudacity.scholar.movietap.database.MovieRepo;
 import com.gudacity.scholar.movietap.utils.AppExecutor;
-import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 import com.gudacity.scholar.movietap.utils.Movie;
 import com.gudacity.scholar.movietap.utils.MovieReview;
@@ -81,14 +81,14 @@ public class DetailActivity extends AbstractActivityAction {
         ButterKnife.bind(this);
 
         if (savedInstanceState != null) {
-            movie = (Movie)savedInstanceState.getParcelable(MOVIE_PARCELABLE_KEY);
+            movie = savedInstanceState.getParcelable(MOVIE_PARCELABLE_KEY);
             criteriaPosition = savedInstanceState.getInt(CRITERIA_POSITION);
         }else {
 
             if (getIntent().hasExtra(MOVIE_PARCELABLE_KEY)) {
 
                 Bundle bundle = getIntent().getExtras();
-                movie = (Movie)bundle.getParcelable(MOVIE_PARCELABLE_KEY);
+                movie = bundle.getParcelable(MOVIE_PARCELABLE_KEY);
                 criteriaPosition = bundle.getInt(CRITERIA_POSITION);
             } else { return; }
         }
@@ -269,7 +269,7 @@ public class DetailActivity extends AbstractActivityAction {
                     .get();
 
             foStream = getApplicationContext().openFileOutput(
-                    posterName, getApplicationContext().MODE_PRIVATE);
+                    posterName, Context.MODE_PRIVATE);
 
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, foStream);
 
