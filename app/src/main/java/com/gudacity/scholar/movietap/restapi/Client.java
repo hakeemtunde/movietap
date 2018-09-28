@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.restapi;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,15 +7,15 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-class MovieApiClient {
+public class Client {
 
-    private static final String TAG = MovieApiClient.class.getSimpleName();
+    private static final String TAG = Client.class.getSimpleName();
 
     private HttpURLConnection clientConnection;
     private BufferedReader bufferedReader;
     private int statusCode;
 
-    public MovieApiClient() {}
+    public Client() {}
 
     public String makeHttpRequest(String moviePath) throws IOException {
 

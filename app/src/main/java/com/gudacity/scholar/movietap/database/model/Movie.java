@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.database.model;
 
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;

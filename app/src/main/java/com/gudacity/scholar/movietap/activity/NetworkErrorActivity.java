@@ -1,10 +1,12 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.gudacity.scholar.movietap.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

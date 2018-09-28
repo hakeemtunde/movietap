@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.accounts.NetworkErrorException;
 import android.content.Context;
@@ -12,10 +12,12 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieRequestAsyncTaskLoader;
+import com.gudacity.scholar.movietap.eventhandlerinterface.ActivityActionHandlerInterface;
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.utils.thread.MovieRequestAsyncTaskLoader;
 
-import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+import static com.gudacity.scholar.movietap.restapi.PathBuilder.MOVIE_PATH;
 
 abstract public class AbstractActivityAction
         extends AppCompatActivity implements ActivityActionHandlerInterface {

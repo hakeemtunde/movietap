@@ -1,9 +1,13 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
+import android.arch.lifecycle.Observer;
+
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 
 import android.os.Bundle;
 
+import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,17 +18,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
-import com.gudacity.scholar.movietap.database.AppDatabase;
-import com.gudacity.scholar.movietap.utils.AppExecutor;
+import com.gudacity.scholar.movietap.eventhandlerinterface.MainActivityAction;
+import com.gudacity.scholar.movietap.adapter.MovieAdapter;
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.database.MovieListViewModel;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.PathBuilder;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.restapi.PathBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+import static com.gudacity.scholar.movietap.restapi.PathBuilder.MOVIE_PATH;
 
 public class MainActivity extends AbstractActivityAction
         implements MainActivityAction {
@@ -38,7 +44,7 @@ public class MainActivity extends AbstractActivityAction
     @butterknife.BindView(R.id.rc_movie)
     public RecyclerView recyclerView;
 
-    private List<Movie> mFavoriteMovies = new ArrayList<>();
+    //private List<Movie> mFavoriteMovies = new ArrayList<>();
 
     private static final int LOADER_ID = 101;
 
@@ -115,26 +121,21 @@ public class MainActivity extends AbstractActivityAction
         //favorite movie
         if (criteria.equalsIgnoreCase(getString(R.string.my_favorite_txt))) {
 
-            final MainActivity mainActivity = this;
+            List<Movie> movies = new ArrayList<>();
+            final MovieAdapter adapter = new MovieAdapter(getApplicationContext(),
+                    movies, this);
 
-            AppExecutor.getInstance().getDiskIO().execute(new Runnable() {
-                @Override
-                public void run() {
-                    mFavoriteMovies = AppDatabase.getsIntance(mainActivity.getApplicationContext())
-                            .movieDAO().getAll();
-
-                    mainActivity.runOnUiThread(new Runnable() {
+            //LiveData
+            MovieListViewModel viewModel = ViewModelProviders.of(this)
+                    .get(MovieListViewModel.class);
+            viewModel.getMovies().observe(MainActivity.this,
+                    new Observer<List<Movie>>() {
                         @Override
-                        public void run() {
-                            MovieAdapter adapter = new MovieAdapter(mainActivity.getApplicationContext(),
-                                    mFavoriteMovies, mainActivity);
+                        public void onChanged(@Nullable List<Movie> movies) {
+                            adapter.setData(movies);
                             recyclerView.setAdapter(adapter);
                         }
                     });
-
-
-                }
-            });
 
             return;
         }

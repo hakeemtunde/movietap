@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,13 +15,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.adapter.ReviewAdapter;
 import com.gudacity.scholar.movietap.database.AppDatabase;
 import com.gudacity.scholar.movietap.database.MovieRepo;
-import com.gudacity.scholar.movietap.utils.AppExecutor;
+import com.gudacity.scholar.movietap.utils.thread.AppExecutor;
 import com.gudacity.scholar.movietap.utils.JsonParser;
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieReview;
-import com.gudacity.scholar.movietap.utils.PathBuilder;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.database.model.MovieReview;
+import com.gudacity.scholar.movietap.restapi.PathBuilder;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
 
@@ -34,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+import static com.gudacity.scholar.movietap.restapi.PathBuilder.MOVIE_PATH;
 
 public class DetailActivity extends AbstractActivityAction {
 

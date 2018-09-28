@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.eventhandlerinterface;
 
 import android.support.v4.app.LoaderManager;
 import android.widget.ProgressBar;

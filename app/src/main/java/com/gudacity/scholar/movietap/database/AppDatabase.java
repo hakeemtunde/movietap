@@ -4,9 +4,8 @@ import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.util.Log;
 
-import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.database.model.Movie;
 
 @Database(entities = {Movie.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {

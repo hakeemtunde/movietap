@@ -2,6 +2,10 @@ package com.gudacity.scholar.movietap.utils;
 
 import android.util.Log;
 
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.database.model.MovieReview;
+import com.gudacity.scholar.movietap.database.model.MovieTrailer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParser {
+public final class JsonParser {
 
     private static final String TAG = JsonParser.class.getSimpleName();
 
@@ -31,6 +35,7 @@ public class JsonParser {
     private static final String REVIEW_SIZE = "size";
     private static final String REVIEW_TYPE = "type";
 
+    private JsonParser() {}
 
     public static List<Movie> parseResponseToMovie(String response) {
         List<Movie> movies = new ArrayList<>();

@@ -1,8 +1,8 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.restapi;
 
 import com.gudacity.scholar.movietap.BuildConfig;
 
-public class PathBuilder {
+public final class PathBuilder {
 
     private static final String MOVIE_INIT_PATH = "/movie";
     private static final String CONFIG_PATH = "?api_key=";
@@ -21,6 +21,8 @@ public class PathBuilder {
     private static final String MOVIE_TRAILER_PATH = "/videos";
 
     public static final String MOVIE_PATH = "uri_path";
+
+    private PathBuilder() {}
 
     public static String buildPosterImagePath(String posterPath) {
 
