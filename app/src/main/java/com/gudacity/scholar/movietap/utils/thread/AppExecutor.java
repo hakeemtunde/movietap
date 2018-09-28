@@ -3,12 +3,12 @@ package com.gudacity.scholar.movietap.utils.thread;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class AppExecutor {
+public final class AppExecutor {
 
     private static final Object LOCK = new Object();
     private static AppExecutor sInstance;
     private final Executor diskIO;
-
+    
     private AppExecutor(Executor diskIO) {
         this.diskIO = diskIO;
     }

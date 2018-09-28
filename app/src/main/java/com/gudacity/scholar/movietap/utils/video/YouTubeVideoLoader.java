@@ -12,7 +12,9 @@ import com.google.android.youtube.player.YouTubeThumbnailView;
 
 import static com.gudacity.scholar.movietap.BuildConfig.YOUTUBE_API_KEY;
 
-public class YouTubeVideoLoader {
+public final class YouTubeVideoLoader {
+
+    private YouTubeVideoLoader() {}
 
     public static void loadTrailerThumbnail(final Activity activity, final Context context,
                                                 YouTubeThumbnailView thumbnailView,

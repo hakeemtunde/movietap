@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonParser {
+public final class JsonParser {
 
     private static final String TAG = JsonParser.class.getSimpleName();
 
@@ -35,6 +35,7 @@ public class JsonParser {
     private static final String REVIEW_SIZE = "size";
     private static final String REVIEW_TYPE = "type";
 
+    private JsonParser() {}
 
     public static List<Movie> parseResponseToMovie(String response) {
         List<Movie> movies = new ArrayList<>();

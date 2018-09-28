@@ -4,7 +4,9 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
 
-public class ExtraUtil {
+public final class ExtraUtil {
+
+    private ExtraUtil() {}
 
     public static int calculateBestSpanCount(int posterWidth, WindowManager windowManager) {
         Display display = windowManager.getDefaultDisplay();
