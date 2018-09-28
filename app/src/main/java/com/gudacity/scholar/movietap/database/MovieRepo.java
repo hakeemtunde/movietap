@@ -3,7 +3,7 @@ package com.gudacity.scholar.movietap.database;
 import android.arch.lifecycle.LiveData;
 import android.content.Context;
 
-import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.database.model.Movie;
 
 import java.util.List;
 

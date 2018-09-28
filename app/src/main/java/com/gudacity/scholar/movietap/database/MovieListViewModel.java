@@ -5,7 +5,7 @@ import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
-import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.database.model.Movie;
 
 import java.util.List;
 

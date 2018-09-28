@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,14 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.PathBuilder;
+import com.gudacity.scholar.movietap.eventhandlerinterface.MainActivityAction;
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.eventhandlerinterface.RecyclerClickListener;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.restapi.PathBuilder;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder>
-        implements RecyclerClickListener{
+        implements RecyclerClickListener {
 
     private static final String TAG = MovieAdapter.class.getSimpleName();
 

@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.restapi;
 
 import com.gudacity.scholar.movietap.BuildConfig;
 

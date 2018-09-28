@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.youtube.player.YouTubeThumbnailView;
-import com.gudacity.scholar.movietap.VideoUtil.YouTubeVideoLoader;
-import com.gudacity.scholar.movietap.utils.MovieTrailer;
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.activity.TrailerActivity;
+import com.gudacity.scholar.movietap.eventhandlerinterface.RecyclerClickListener;
+import com.gudacity.scholar.movietap.utils.video.YouTubeVideoLoader;
+import com.gudacity.scholar.movietap.database.model.MovieTrailer;
 
 import java.util.List;
 

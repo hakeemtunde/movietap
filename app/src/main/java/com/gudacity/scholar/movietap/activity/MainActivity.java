@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.arch.lifecycle.Observer;
 
@@ -18,16 +18,19 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
+import com.gudacity.scholar.movietap.eventhandlerinterface.MainActivityAction;
+import com.gudacity.scholar.movietap.adapter.MovieAdapter;
+import com.gudacity.scholar.movietap.R;
 import com.gudacity.scholar.movietap.database.MovieListViewModel;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.PathBuilder;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.restapi.PathBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+import static com.gudacity.scholar.movietap.restapi.PathBuilder.MOVIE_PATH;
 
 public class MainActivity extends AbstractActivityAction
         implements MainActivityAction {

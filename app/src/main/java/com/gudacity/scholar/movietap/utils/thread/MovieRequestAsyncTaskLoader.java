@@ -1,10 +1,11 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.utils.thread;
 
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 import android.util.Log;
 
-import com.gudacity.scholar.movietap.ActivityActionHandlerInterface;
+import com.gudacity.scholar.movietap.eventhandlerinterface.ActivityActionHandlerInterface;
+import com.gudacity.scholar.movietap.restapi.Client;
 
 import java.io.IOException;
 
@@ -26,7 +27,7 @@ public class MovieRequestAsyncTaskLoader extends AsyncTaskLoader<String> {
     public String loadInBackground() {
 
         String responseData = null;
-        MovieApiClient client = new MovieApiClient();
+        Client client = new Client();
 
         try{
             responseData = client.makeHttpRequest(path);

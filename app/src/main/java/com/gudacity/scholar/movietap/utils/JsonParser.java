@@ -2,6 +2,10 @@ package com.gudacity.scholar.movietap.utils;
 
 import android.util.Log;
 
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.database.model.MovieReview;
+import com.gudacity.scholar.movietap.database.model.MovieTrailer;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,19 +10,20 @@ import android.view.MenuItem;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.adapter.TrailerAdapter;
 import com.gudacity.scholar.movietap.utils.ExtraUtil;
 import com.gudacity.scholar.movietap.utils.JsonParser;
-import com.gudacity.scholar.movietap.utils.Movie;
-import com.gudacity.scholar.movietap.utils.MovieTrailer;
-import com.gudacity.scholar.movietap.utils.PathBuilder;
+import com.gudacity.scholar.movietap.database.model.Movie;
+import com.gudacity.scholar.movietap.database.model.MovieTrailer;
+import com.gudacity.scholar.movietap.restapi.PathBuilder;
 
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.gudacity.scholar.movietap.MainActivity.CRITERIA_POSITION;
-import static com.gudacity.scholar.movietap.utils.PathBuilder.MOVIE_PATH;
+import static com.gudacity.scholar.movietap.restapi.PathBuilder.MOVIE_PATH;
 
 public class TrailerActivity extends AbstractActivityAction {
 

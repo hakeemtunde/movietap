@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap;
+package com.gudacity.scholar.movietap.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,7 +6,8 @@ import android.util.Log;
 
 import com.google.android.youtube.player.YouTubePlayerView;
 import com.google.android.youtube.player.YouTubeBaseActivity;
-import com.gudacity.scholar.movietap.VideoUtil.YouTubeVideoLoader;
+import com.gudacity.scholar.movietap.R;
+import com.gudacity.scholar.movietap.utils.video.YouTubeVideoLoader;
 import com.gudacity.scholar.movietap.utils.JsonParser;
 
 import butterknife.BindView;

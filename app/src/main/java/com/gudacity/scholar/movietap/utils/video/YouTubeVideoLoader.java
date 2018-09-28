@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.VideoUtil;
+package com.gudacity.scholar.movietap.utils.video;
 
 import android.app.Activity;
 import android.content.Context;

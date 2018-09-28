@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.database.model;
 
 public class MovieReview {
 

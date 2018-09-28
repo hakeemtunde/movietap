@@ -6,7 +6,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.gudacity.scholar.movietap.utils.Movie;
+import com.gudacity.scholar.movietap.database.model.Movie;
 
 import java.util.List;
 

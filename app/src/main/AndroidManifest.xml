@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -20,17 +20,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DetailActivity"
+            android:name=".activity.DetailActivity"
             android:label="@string/detail_activity_name"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".activity.MainActivity"
             android:theme="@style/DetailActivityTheme" />
-        <activity android:name=".NetworkErrorActivity" />
+        <activity android:name=".activity.NetworkErrorActivity" />
         <activity
-            android:name=".TrailerActivity"
+            android:name=".activity.TrailerActivity"
             android:label="@string/title_activity_trailer"
-            android:parentActivityName=".DetailActivity"
+            android:parentActivityName=".activity.DetailActivity"
             android:theme="@style/DetailActivityTheme" />
-        <activity android:name=".YoutubeTrailerPlayerActivity"/>
+        <activity android:name=".activity.YoutubeTrailerPlayerActivity"/>
     </application>
 
 </manifest>

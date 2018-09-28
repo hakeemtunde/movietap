@@ -1,4 +1,4 @@
-package com.gudacity.scholar.movietap.utils;
+package com.gudacity.scholar.movietap.utils.thread;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
