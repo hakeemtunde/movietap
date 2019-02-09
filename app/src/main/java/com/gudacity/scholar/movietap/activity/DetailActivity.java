@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -310,8 +312,8 @@ public class DetailActivity extends AbstractActivityAction {
 
             Log.e(TAG, getString(R.string.poster_download_error), ioe);
 
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.poster_download_error), Toast.LENGTH_LONG).show();
+            Snackbar.make(new CoordinatorLayout(this), getString(R.string.poster_download_error),
+                    Snackbar.LENGTH_SHORT).show();
 
         }
 
